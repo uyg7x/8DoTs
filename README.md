@@ -7,7 +7,7 @@
 [![Telemetry: RAPL + ACPI](https://img.shields.io/badge/telemetry-RAPL%20%2B%20ACPI-orange.svg)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg)]()
 ​
-> **Final-Year Project Proposal — 12-Week Build**  
+>  Project Proposal **  
 > A developer-first tool that measures the watts, joules, and temperature of code execution.
 ​
 ---
