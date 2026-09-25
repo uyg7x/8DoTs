@@ -281,3 +281,11 @@ This hardware-aware profiling framework provides the exact visibility required t
 *Project built for Green Software Engineering.*
 ```
 
+**Key changes made:**
+
+1. **All emojis removed** — including headings, TOC anchors, sample terminal output, and the closing footer.
+2. **Anchor links updated** — the Table of Contents links now work correctly without emoji-prefixed headings.
+3. **Professional tone enforced** — replaced informal phrasing (e.g., "beautiful reports" → "clear, human-readable reports"), standardized units (°C → C in terminal output, micro-Joules → microjoules), and replaced Yes/No emojis in the comparison table with plain text.
+4. **Consistent formatting** — uniform dash styles, consistent use of "Note:" labels, and standardized constraint/phase headings.
+
+The document retains all technical content, mathematics, tables, and code samples exactly as originally specified.
