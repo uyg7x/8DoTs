@@ -109,30 +109,45 @@ python -m dol8.cli doctor</pre></div>
         <p class="small-note video-fallback-note">If the embedded player is unavailable, <a href="https://www.youtube.com/watch?v=vVB6db1LIVQ" target="_blank" rel="noopener noreferrer">open the video on YouTube</a>.</p>
       </section>
 
-      <section class="section-block" aria-labelledby="features-title">
-        <div class="section-intro"><p class="eyebrow">A practical measurement loop</p><h2 id="features-title">See the cost around your code</h2><p>One CLI for scripted runs, comparisons, system observation, and repeatable checks.</p></div>
-        <div class="feature-grid">
-          <a class="feature" href="/features/rapl-counters" target="_blank" rel="noopener" aria-label="Read about Direct RAPL reads">
-            <span class="feature-index">01 / COUNTERS</span><h3>Direct RAPL reads</h3><p>Dynamically discovers powercap domains and handles counter wraps using each domain's reported range.</p>
-          </a>
-          <a class="feature" href="/features/thermal-context" target="_blank" rel="noopener" aria-label="Read about Temperature context">
-            <span class="feature-index">02 / THERMAL</span><h3>Temperature context</h3><p>Samples available CPU thermal zones and reports throttling as unknown when frequency data is unavailable.</p>
-          </a>
-          <a class="feature" href="/features/statistical-variation" target="_blank" rel="noopener" aria-label="Read about Statistical confidence">
-            <span class="feature-index">03 / VARIATION</span><h3>Statistical confidence</h3><p>Use an idle baseline, a discarded warm-up, and repeated samples to expose run-to-run variation.</p>
-          </a>
-          <a class="feature" href="/features/sequential-execution" target="_blank" rel="noopener" aria-label="Read about Sequential target runs">
-            <span class="feature-index">04 / EXECUTION</span><h3>Sequential target runs</h3><p>Profile scripts and commands one at a time, with timeout handling and process-tree cleanup.</p>
-          </a>
-          <a class="feature" href="/features/export-formats" target="_blank" rel="noopener" aria-label="Read about JSON and CSV">
-            <span class="feature-index">05 / EXPORT</span><h3>JSON and CSV</h3><p>Save structured metrics and sampled timelines for downstream analysis and reporting.</p>
-          </a>
-          <a class="feature" href="/features/ci-energy-gates" target="_blank" rel="noopener" aria-label="Read about CI energy gates">
-            <span class="feature-index">06 / AUTOMATION</span><h3>CI energy gates</h3><p>Compare measured means with a saved baseline, with a noise guard before failing a gate.</p>
-          </a>
-        </div>
-      </section>
-
+     <section class="section-block" aria-labelledby="features-title">
+  <div class="section-intro">
+    <p class="eyebrow">A practical measurement loop</p>
+    <h2 id="features-title">See the cost around your code</h2>
+    <p>One CLI for scripted runs, comparisons, system observation, and repeatable checks.</p>
+  </div>
+  <div class="feature-grid">
+    <a class="feature" href="features/rapl-counters/" target="_blank" rel="noopener" aria-label="Read about Direct RAPL reads">
+      <span class="feature-index">01 / COUNTERS</span>
+      <h3>Direct RAPL reads</h3>
+      <p>Dynamically discovers powercap domains and handles counter wraps using each domain's reported range.</p>
+    </a>
+    <a class="feature" href="features/thermal-context/" target="_blank" rel="noopener" aria-label="Read about Temperature context">
+      <span class="feature-index">02 / THERMAL</span>
+      <h3>Temperature context</h3>
+      <p>Samples available CPU thermal zones and reports throttling as unknown when frequency data is unavailable.</p>
+    </a>
+    <a class="feature" href="features/statistical-variation/" target="_blank" rel="noopener" aria-label="Read about Statistical confidence">
+      <span class="feature-index">03 / VARIATION</span>
+      <h3>Statistical confidence</h3>
+      <p>Use an idle baseline, a discarded warm-up, and repeated samples to expose run-to-run variation.</p>
+    </a>
+    <a class="feature" href="features/sequential-execution/" target="_blank" rel="noopener" aria-label="Read about Sequential target runs">
+      <span class="feature-index">04 / EXECUTION</span>
+      <h3>Sequential target runs</h3>
+      <p>Profile scripts and commands one at a time, with timeout handling and process-tree cleanup.</p>
+    </a>
+    <a class="feature" href="features/export-formats/" target="_blank" rel="noopener" aria-label="Read about JSON and CSV">
+      <span class="feature-index">05 / EXPORT</span>
+      <h3>JSON and CSV</h3>
+      <p>Save structured metrics and sampled timelines for downstream analysis and reporting.</p>
+    </a>
+    <a class="feature" href="features/ci-energy-gates/" target="_blank" rel="noopener" aria-label="Read about CI energy gates">
+      <span class="feature-index">06 / AUTOMATION</span>
+      <h3>CI energy gates</h3>
+      <p>Compare measured means with a saved baseline, with a noise guard before failing a gate.</p>
+    </a>
+  </div>
+</section>
       <section class="section-block intro-row" aria-labelledby="why-title">
         <div><p class="eyebrow">Why it matters</p><h2 id="why-title">Energy should be visible during development.</h2></div>
         <div><p>Runtime is only one dimension of software cost. Energy use affects heat, battery life, cloud spend, and the efficiency of systems under sustained load.</p><p>DoL8 gives developers a repeatable starting point for comparing workloads. Its output is an estimate with explicit limits, not a substitute for calibrated lab equipment or a whole-system power meter.</p>
