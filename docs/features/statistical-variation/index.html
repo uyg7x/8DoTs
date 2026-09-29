@@ -24,30 +24,7 @@
         </div>
         <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
       </div>
-      <nav class="nav-links" aria-label="Main navigation">
-        <a class="overview-nav-link" href="/">&#8592; Overview</a>
-        <a href="/#docs">Docs</a>
-        <div class="install-menu">
-          <a class="install-trigger" href="/#install" aria-haspopup="true" aria-expanded="false" aria-controls="feature-install-dropdown">Install</a>
-          <div id="feature-install-dropdown" class="install-dropdown" role="group" aria-label="Choose installation platform">
-            <a href="/#install">Linux <small>Energy profiling supported</small></a>
-            <a href="/#install">Windows <small>Tests and development only</small></a>
-            <a href="/#install">Mac <small>Tests and development only</small></a>
-          </div>
-        </div>
-        <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
-      </nav>
-    </div>
-  </header>
-  <main class="frame feature-document">
-    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-      <header class="feature-hero">
-        <p class="eyebrow">03 / VARIATION</p>
-        <h1 id="feature-title">Statistical confidence</h1>
-        <p class="feature-summary">Use an idle baseline, a discarded warm-up, and repeated samples to expose run-to-run variation.</p>
-        <a class="feature-back" href="/">&#8592; Back to overview</a>
-      </header>
-      <div class="feature-sections">
+           <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>Energy measurements vary even when the source code stays the same. CPU boost, background work, cache state, temperature, and counter quantization all affect a run. Statistical confidence is the practice of showing that variation instead of treating one sample as the truth.</p>
           <p>DoL8 measures an idle baseline, runs a configurable warm-up that is discarded, then performs repeated measured runs. It reports the mean, sample standard deviation, coefficient of variation (CoV), run count, and a confidence label.</p>
