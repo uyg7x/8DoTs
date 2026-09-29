@@ -22,30 +22,7 @@
         </div>
         <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
       </div>
-      <nav class="nav-links" aria-label="Main navigation">
-        <a class="overview-nav-link" href="/">&#8592; Overview</a>
-        <a href="/#docs">Docs</a>
-        <div class="install-menu">
-          <a class="install-trigger" href="/#install" aria-haspopup="true" aria-expanded="false" aria-controls="feature-install-dropdown">Install</a>
-          <div id="feature-install-dropdown" class="install-dropdown" role="group" aria-label="Choose installation platform">
-            <a href="/#install">Linux <small>Energy profiling supported</small></a>
-            <a href="/#install">Windows <small>Tests and development only</small></a>
-            <a href="/#install">Mac <small>Tests and development only</small></a>
-          </div>
-        </div>
-        <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
-      </nav>
-    </div>
-  </header>
-  <main class="frame feature-document">
-    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-      <header class="feature-hero">
-        <p class="eyebrow">06 / AUTOMATION</p>
-        <h1 id="feature-title">CI energy gates</h1>
-        <p class="feature-summary">Compare measured means with a saved baseline, with a noise guard before failing a gate.</p>
-        <a class="feature-back" href="/">&#8592; Back to overview</a>
-      </header>
-      <div class="feature-sections">
+           <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>An energy gate compares a pull request's measured workload against a saved reference. It turns an energy regression into a build status so teams can notice a cost increase before it becomes the new normal.</p>
           <p>DoL8 stores a baseline mean, sample standard deviation, and run count as JSON. A measured run can compare against that file with a percentage threshold and return a non-zero exit code when a significant increase crosses the threshold.</p>
