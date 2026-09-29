@@ -74,7 +74,7 @@ CONFIDENCE: 5 runs, mean 412.500 J +- 6.200 J, CoV 1.50%, HIGH</pre>
           <h1 id="home-title">Every program leaves a delta. Measure it.</h1>
           <div class="hero-install">
             <p class="eyebrow">Get DoL8 running</p>
-            <div class="code-wrap"><pre class="code-block">git clone https://github.com/YOURNAME/DoL8.git &amp;&amp; cd DoL8
+            <div class="code-wrap"><pre class="code-block">git clone https://github.com/uyg7x/DoL8.git &amp;&amp; cd DoL8
 python3 -m venv .venv &amp;&amp; source .venv/bin/activate
 pip install -e .
 python -m dol8.cli doctor</pre></div>
@@ -109,7 +109,7 @@ python -m dol8.cli doctor</pre></div>
         <p class="small-note video-fallback-note">If the embedded player is unavailable, <a href="https://www.youtube.com/watch?v=vVB6db1LIVQ" target="_blank" rel="noopener noreferrer">open the video on YouTube</a>.</p>
       </section>
 
-      <section class="section-block" aria-labelledby="features-title">
+     <section class="section-block" aria-labelledby="features-title">
  <div class="feature-grid">
   <a class="feature" href="features/rapl-counters/index.html" target="_blank" rel="noopener" aria-label="Read about Direct RAPL reads">
     <span class="feature-index">01 / COUNTERS</span><h3>Direct RAPL reads</h3><p>Dynamically discovers powercap domains and handles counter wraps using each domain's reported range.</p>
@@ -129,8 +129,8 @@ python -m dol8.cli doctor</pre></div>
   <a class="feature" href="features/ci-energy-gates/index.html" target="_blank" rel="noopener" aria-label="Read about CI energy gates">
     <span class="feature-index">06 / AUTOMATION</span><h3>CI energy gates</h3><p>Compare measured means with a saved baseline, with a noise guard before failing a gate.</p>
   </a>
-</div></section>
-
+</div>
+     </section>
       <section class="section-block intro-row" aria-labelledby="why-title">
         <div><p class="eyebrow">Why it matters</p><h2 id="why-title">Energy should be visible during development.</h2></div>
         <div><p>Runtime is only one dimension of software cost. Energy use affects heat, battery life, cloud spend, and the efficiency of systems under sustained load.</p><p>DoL8 gives developers a repeatable starting point for comparing workloads. Its output is an estimate with explicit limits, not a substitute for calibrated lab equipment or a whole-system power meter.</p>

@@ -9,7 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+<!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
 </head>
 <body>
   <div class="site-shell">
@@ -22,7 +24,7 @@
         </div>
         <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
       </div>
-           <div class="feature-sections">
+          <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>A target runner is the boundary between a measurement tool and the program being measured. It starts one script or command, captures its output and exit status, and measures the interval around that target.</p>
           <p>DoL8 runs requested targets sequentially. A directory is invoked through pytest, a Python file uses the active Python interpreter, and other targets are launched as commands. The default timeout is 600 seconds.</p>

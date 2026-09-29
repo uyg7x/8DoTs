@@ -9,7 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+ <!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
 </head>
 <body>
   <div class="site-shell">
@@ -22,7 +24,7 @@
         </div>
         <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
       </div>
-            <div class="feature-sections">
+           <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>Temperature context adds a view of the machine's thermal state alongside energy and runtime. Linux commonly exposes thermal zones at <code>/sys/class/thermal/thermal_zone*/</code>; each zone has a type and a temperature in millidegrees Celsius.</p>
           <p>DoL8 currently reads sensor data through <code>psutil</code>, prefers known CPU sensor families such as <code>coretemp</code> and <code>k10temp</code>, and stores valid samples during a run. It reports baseline, peak, average, ending temperature, and rise when readings are available.</p>
