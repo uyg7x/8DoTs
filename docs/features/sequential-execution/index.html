@@ -22,30 +22,7 @@
         </div>
         <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
       </div>
-      <nav class="nav-links" aria-label="Main navigation">
-        <a class="overview-nav-link" href="/">&#8592; Overview</a>
-        <a href="/#docs">Docs</a>
-        <div class="install-menu">
-          <a class="install-trigger" href="/#install" aria-haspopup="true" aria-expanded="false" aria-controls="feature-install-dropdown">Install</a>
-          <div id="feature-install-dropdown" class="install-dropdown" role="group" aria-label="Choose installation platform">
-            <a href="/#install">Linux <small>Energy profiling supported</small></a>
-            <a href="/#install">Windows <small>Tests and development only</small></a>
-            <a href="/#install">Mac <small>Tests and development only</small></a>
-          </div>
-        </div>
-        <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
-      </nav>
-    </div>
-  </header>
-  <main class="frame feature-document">
-    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-      <header class="feature-hero">
-        <p class="eyebrow">04 / EXECUTION</p>
-        <h1 id="feature-title">Sequential target runs</h1>
-        <p class="feature-summary">Profile scripts and commands one at a time, with timeout handling and process-tree cleanup.</p>
-        <a class="feature-back" href="/">&#8592; Back to overview</a>
-      </header>
-      <div class="feature-sections">
+           <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>A target runner is the boundary between a measurement tool and the program being measured. It starts one script or command, captures its output and exit status, and measures the interval around that target.</p>
           <p>DoL8 runs requested targets sequentially. A directory is invoked through pytest, a Python file uses the active Python interpreter, and other targets are launched as commands. The default timeout is 600 seconds.</p>
