@@ -22,30 +22,7 @@
         </div>
         <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
       </div>
-      <nav class="nav-links" aria-label="Main navigation">
-        <a class="overview-nav-link" href="/">&#8592; Overview</a>
-        <a href="/#docs">Docs</a>
-        <div class="install-menu">
-          <a class="install-trigger" href="/#install" aria-haspopup="true" aria-expanded="false" aria-controls="feature-install-dropdown">Install</a>
-          <div id="feature-install-dropdown" class="install-dropdown" role="group" aria-label="Choose installation platform">
-            <a href="/#install">Linux <small>Energy profiling supported</small></a>
-            <a href="/#install">Windows <small>Tests and development only</small></a>
-            <a href="/#install">Mac <small>Tests and development only</small></a>
-          </div>
-        </div>
-        <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
-      </nav>
-    </div>
-  </header>
-  <main class="frame feature-document">
-    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-      <header class="feature-hero">
-        <p class="eyebrow">02 / THERMAL</p>
-        <h1 id="feature-title">Temperature context</h1>
-        <p class="feature-summary">Samples available CPU thermal zones and reports throttling as unknown when frequency data is unavailable.</p>
-        <a class="feature-back" href="/">&#8592; Back to overview</a>
-      </header>
-      <div class="feature-sections">
+            <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>Temperature context adds a view of the machine's thermal state alongside energy and runtime. Linux commonly exposes thermal zones at <code>/sys/class/thermal/thermal_zone*/</code>; each zone has a type and a temperature in millidegrees Celsius.</p>
           <p>DoL8 currently reads sensor data through <code>psutil</code>, prefers known CPU sensor families such as <code>coretemp</code> and <code>k10temp</code>, and stores valid samples during a run. It reports baseline, peak, average, ending temperature, and rise when readings are available.</p>
