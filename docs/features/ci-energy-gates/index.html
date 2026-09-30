@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A1428">
+  <meta name="description" content="How DoL8 saves an energy baseline, compares repeated-run means, and protects CI gates from noisy changes.">
+  <title>CI energy gates — Energy CLI | DoL8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+  <header class="site-header">
+    <div class="nav-row">
+      <div class="brand-group">
+      </div>
+  <main class="frame feature-document">
+    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
+      <header class="feature-hero">
+        <p class="eyebrow">06 / AUTOMATION</p>
+        <h1 id="feature-title">CI energy gates</h1>
+        <p class="feature-summary">Compare measured means with a saved baseline, with a noise guard before failing a gate.</p>
+        <a class="feature-back" href="/">&#8592; Back to overview</a>
+      </header>
+      <div class="feature-sections">
+        <section class="feature-section" aria-labelledby="what-title">
+          <p>An energy gate compares a pull request's measured workload against a saved reference. It turns an energy regression into a build status so teams can notice a cost increase before it becomes the new normal.</p>
+          <p>DoL8 stores a baseline mean, sample standard deviation, and run count as JSON. A measured run can compare against that file with a percentage threshold and return a non-zero exit code when a significant increase crosses the threshold.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="why-title"><h2 id="why-title">Why it matters</h2>
+          <p>Measurements on physical machines are noisy. A gate that fails on any positive delta will turn ordinary variation into flaky red builds, teaching developers to ignore the signal.</p>
+          <p>The gate should require both a meaningful percentage increase and evidence that the increase exceeds the recorded noise. For useful results, run on a stable bare-metal Linux machine with readable RAPL counters, not a shared hosted runner or virtual machine that hides them.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>
+          <p>Create a baseline from a DoL8 result using <code>dol8 gate save</code>. During a later run, the evaluator calculates percentage change from the baseline mean and combined deviation <code>sqrt(current_stdev^2 + baseline_stdev^2)</code>. A positive change is considered beyond noise only when both groups have at least two samples and the increase exceeds twice that combined deviation.</p>
+          <p>The current gate fails only when the increase is above the configured percentage threshold and also beyond the noise guard. Improvements do not fail the gate. The evaluator exposes whether the change is beyond noise; the CLI currently prints PASS or FAIL rather than a separate INCONCLUSIVE label.</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli run tests/fixtures/heavy.py \
+  --runs 5 --json current.json \
+  --gate-baseline energy-baseline.json --threshold 15</pre></div>
+          <p>For a physical measurement workflow, pin the baseline to a trusted reference and ensure the CI worker is not concurrently running unrelated workloads.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="build-title"><h2 id="build-title">What to build</h2>
+          <ol class="build-steps">
+            <li><strong>Save a reproducible baseline.</strong> Use <code>dol8 gate save result.json --out energy-baseline.json</code> after collecting multiple runs on the intended machine.</li>
+            <li><strong>Compare distributions.</strong> In <code>dol8/gate.py</code>, compare means, standard deviations, sample counts, and threshold; avoid treating an unknown one-run deviation as evidence of significance.</li>
+            <li><strong>Make outcomes explicit.</strong> Distinguish pass, regression, and inconclusive/noise in structured output. Current CLI text reports only PASS or FAIL even when the noise guard prevents failure.</li>
+            <li><strong>Use a stable worker.</strong> Configure a self-hosted Linux bare-metal runner with RAPL available, fixed power settings where practical, and no competing benchmark jobs.</li>
+            <li><strong>Version the reference deliberately.</strong> Review baseline updates like code, record the workload and machine context, and refresh only after an intentional performance/energy change.</li>
+          </ol>
+          <div class="code-wrap"><pre class="code-block">name: Energy check
+on: [pull_request]
+jobs:
+  measure:
+    runs-on: [self-hosted, linux, rapl]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e .
+      - run: &gt;-
+          python -m dol8.cli run tests/fixtures/heavy.py
+          --runs 5 --json current.json
+          --gate-baseline energy-baseline.json --threshold 15</pre></div>
+          <p>Commit a reviewed <code>energy-baseline.json</code> beside the workflow. A GitHub-hosted VM usually cannot provide the physical RAPL interface this check needs.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="use-title"><h2 id="use-title">How to use it</h2>
+          <p>Generate the initial result on the reference machine, save it, and then use that file on subsequent runs. Illustrative commands:</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli run tests/fixtures/heavy.py --runs 5 --json reference.json
+python -m dol8.cli gate save reference.json --out energy-baseline.json
+python -m dol8.cli run tests/fixtures/heavy.py --runs 5 \
+  --gate-baseline energy-baseline.json --threshold 15</pre></div>
+          <div class="code-wrap"><pre class="code-block">ENERGY GATE: baseline 100.000 J, current 103.000 J, delta +3.00%, threshold 15.00%: PASS</pre></div>
+        </section>
+        <section class="feature-section" aria-labelledby="edge-title"><h2 id="edge-title">Edge cases &amp; gotchas</h2>
+          <ul>
+            <li>Unknown sample counts default conservatively to one; a single run is not sufficient for the noise guard to declare a significant increase.</li>
+            <li>A passing gate does not prove energy stayed identical. It means the configured regression conditions were not both met.</li>
+            <li>Only a positive regression above threshold is a failure; decreases and changes within the noise band pass in the current implementation.</li>
+            <li>Changing CPU, kernel, cooling, power limits, workload inputs, or runner contention can invalidate a saved baseline.</li>
+            <li>Do not regenerate the baseline from every pull request. That would make regressions self-approving.</li>
+          </ul>
+        </section>
+        <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
+          <div class="related-links">
+            <a href="/features/statistical-variation"><span>03 / VARIATION</span>Statistical confidence</a>
+            <a href="/features/export-formats"><span>05 / EXPORT</span>JSON and CSV</a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-brand">Built with PJY Team</div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/#docs">Docs</a>
+      <a href="/#install">Install</a>
+      <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+    </nav>
+  </footer>
+  <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
+  </div>
+  <script src="/script.js" defer></script>
+</body>
+</html>
