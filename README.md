@@ -14,8 +14,6 @@
     </span>
   </pre>
 </div>
-# 8DoTs
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Platform](https://img.shields.io/badge/platform-Linux%20bare--metal-lightgrey)](https://www.kernel.org/)
