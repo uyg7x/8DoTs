@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A1428">
+  <meta name="description" content="How DoL8 discovers Linux RAPL powercap domains, reads cumulative energy counters, and corrects counter wraps.">
+  <title>Direct RAPL reads — Energy CLI | DoL8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+  <header class="site-header">
+    <div class="nav-row">
+      <div class="brand-group">
+        <div class="site-clock" aria-label="Local time">
+          <span class="site-clock-label">LOCAL TIME</span>
+          <time class="site-clock-time" id="site-clock" datetime="00:00:00">00:00:00</time>
+        </div>
+        <a class="brand" href="/" aria-label="DoL8 overview">DoL<span class="brand-eight">8</span></a>
+      </div>
+           <div class="feature-sections">
+        <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
+          <p>RAPL is a set of hardware energy counters exposed by the Linux kernel through the powercap interface. A reading is cumulative: it tells you how much energy a domain has used since its counter began, not the energy of one process by itself.</p>
+          <p>DoL8 reads before and after a target, then computes the difference. A package domain can represent the processor package; nested domains may report core, uncore, or DRAM energy when the CPU and firmware expose them.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="why-title"><h2 id="why-title">Why it matters</h2>
+          <p>Elapsed time alone cannot show whether a workload used more or less energy. Reading the hardware counter at both ends gives a repeatable machine-level estimate in joules, without pretending that the processor can isolate a process perfectly.</p>
+          <p>Powercap layouts vary by kernel and CPU. Discovering domains rather than assuming one fixed directory keeps the tool useful across systems and lets it report unavailable hardware clearly.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>
+          <p>The Linux interface commonly places package directories under <code>/sys/class/powercap/intel-rapl:*</code>; child names such as <code>intel-rapl:0:0</code> may expose subdomains. Each usable directory has a <code>name</code>, <code>energy_uj</code>, and <code>max_energy_range_uj</code>. The last file defines the counter's wrap range.</p>
+          <p>For a single wrap, the delta in microjoules is <code>current - previous</code> when the counter increased, otherwise <code>(range - previous) + current</code>. Divide by 1,000,000 for joules; divide that delta by elapsed seconds for average watts. DoL8 avoids double-counting nested domains by preferring package energy for its total when available.</p>
+          <div class="code-wrap"><pre class="code-block">if current &gt;= previous:
+    delta_uj = current - previous
+else:
+    delta_uj = max_energy_range_uj - previous + current
+energy_j = delta_uj / 1_000_000
+average_w = energy_j / elapsed_seconds</pre></div>
+          <p>DoL8's reader recursively discovers RAPL-named directories and validates non-negative readings and positive ranges. It uses the reported range for wrap correction; it cannot infer multiple wraps that occur between two reads.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="build-title"><h2 id="build-title">What to build</h2>
+          <ol class="build-steps">
+            <li><strong>Discover domains.</strong> In <code>dol8/rapl.py</code>, walk the powercap root, require readable name, energy, and range files, and normalize domain names without assuming a single package.</li>
+            <li><strong>Keep reads paired.</strong> Capture per-domain starting counters and ranges, run the measurement interval, then read matching domains again. Use a monotonic clock for elapsed time.</li>
+            <li><strong>Validate and calculate.</strong> Reject invalid negative counters and non-positive ranges. Apply one-wrap math, convert units once, and prefer package totals so nested domains are not summed twice.</li>
+            <li><strong>Test without hardware.</strong> Build fake sysfs trees in <code>tests/test_rapl.py</code> for discovery, unreadable files, changing domains, exact-boundary reads, and wrap cases.</li>
+            <li><strong>Fail helpfully.</strong> If powercap is missing, return an unavailable result with a clear Linux requirement. Permission errors should explain the access issue; do not silently substitute zero energy.</li>
+          </ol>
+        </section>
+        <section class="feature-section" aria-labelledby="use-title"><h2 id="use-title">How to use it</h2>
+          <p>Check whether this Linux machine exposes readable counters, then run a target repeatedly. The values below are illustrative, not a measurement from this machine.</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli doctor
+python -m dol8.cli run workload.py --runs 5 --json run.json</pre></div>
+          <div class="code-wrap"><pre class="code-block">ENERGY: 412.500 J; baseline removed 18.200 J
+  PACKAGE: 412.500 J [####################] 100.0%
+POWER: avg 29.000 W, peak 46.200 W
+CONFIDENCE: 5 runs, mean 412.500 J +- 6.200 J, CoV 1.50%, HIGH</pre></div>
+        </section>
+        <section class="feature-section" aria-labelledby="edge-title"><h2 id="edge-title">Edge cases &amp; gotchas</h2>
+          <ul>
+            <li>RAPL may be absent in a VM, WSL2, or on a kernel that does not expose powercap; DoL8 requires Linux bare metal with readable counters.</li>
+            <li>Some systems restrict counter reads. Apply only a permissions change you understand; broader access to powercap data has security implications.</li>
+            <li>Very frequent polling can expose quantization noise and add overhead. Slow polling increases the chance of an unseen wrap. DoL8's timeline poller defaults to 100 ms.</li>
+            <li>A range corrects one wrap only. If a workload can consume more than one full counter range between reads, the delta is ambiguous.</li>
+            <li>Package, core, and DRAM domains are not necessarily independent; adding nested readings can double-count energy.</li>
+          </ul>
+        </section>
+        <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
+          <div class="related-links">
+            <a href="/features/thermal-context"><span>02 / THERMAL</span>Temperature context</a>
+            <a href="/features/statistical-variation"><span>03 / VARIATION</span>Statistical confidence</a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-brand">Built with PJY Team</div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/#docs">Docs</a>
+      <a href="/#install">Install</a>
+      <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+    </nav>
+  </footer>
+  <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
+  </div>
+  <script src="/script.js" defer></script>
+</body>
+</html>
