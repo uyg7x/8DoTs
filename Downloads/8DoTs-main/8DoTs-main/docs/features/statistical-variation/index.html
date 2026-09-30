@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A1428">
+  <meta name="description" content="How DoL8 measures an idle baseline, discards warm-up work, repeats samples, and reports energy variation honestly.">
+  <title>Statistical confidence — Energy CLI | DoL8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+  <header class="site-header">
+    <div class="nav-row">
+      <div class="brand-group">
+      </div>
+  <main class="frame feature-document">
+    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
+           <div class="feature-sections">
+        <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
+          <p>Energy measurements vary even when the source code stays the same. CPU boost, background work, cache state, temperature, and counter quantization all affect a run. Statistical confidence is the practice of showing that variation instead of treating one sample as the truth.</p>
+          <p>DoL8 measures an idle baseline, runs a configurable warm-up that is discarded, then performs repeated measured runs. It reports the mean, sample standard deviation, coefficient of variation (CoV), run count, and a confidence label.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="why-title"><h2 id="why-title">Why it matters</h2>
+          <p>A single energy number cannot tell you whether a change came from the code or from normal system noise. It has no estimate of spread, so a small apparent improvement can be indistinguishable from run-to-run variation.</p>
+          <p>Repeats make the uncertainty visible. A low CoV means the observed samples were more consistent; it does not guarantee that the system was isolated or that RAPL is an exact process-level meter.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>
+          <p>Before each target, DoL8 measures five seconds of idle energy by default. It subtracts estimated idle watts times the target duration from each result and floors adjusted energy at zero. Unless disabled, one warm-up is run and discarded; use <code>--warmup N</code> to choose the count or <code>--no-warmup</code> to skip it.</p>
+          <p>For adjusted samples <code>x</code>, the mean is <code>sum(x) / n</code>; the standard deviation is the sample standard deviation; CoV is <code>stdev / abs(mean)</code>. Current confidence labels are HIGH below 5% CoV, MEDIUM below 15%, otherwise LOW. One run is always LOW because spread is unknown.</p>
+          <div class="code-wrap"><pre class="code-block">mean_j = statistics.mean(samples)
+stdev_j = statistics.stdev(samples) if len(samples) &gt; 1 else 0
+cov = stdev_j / abs(mean_j) if mean_j else 0
+
+confidence = "LOW" if len(samples) &lt; 2 else classify(cov)</pre></div>
+          <p>The report includes mean and standard deviation, while the JSON statistics also include CoV and confidence. The current report does not expose min/max in its aggregate summary; those are useful additions when reviewing outliers.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="build-title"><h2 id="build-title">What to build</h2>
+          <ol class="build-steps">
+            <li><strong>Measure the idle window.</strong> In <code>dol8/stats.py</code>, capture energy and temperature before the workload and retain actual elapsed duration.</li>
+            <li><strong>Separate warm-up from samples.</strong> Keep warm-up runs out of the measured list; record the configured count in <code>warmup_discarded</code>.</li>
+            <li><strong>Adjust and aggregate consistently.</strong> Subtract the estimated idle rate, floor negative estimates at zero, and calculate sample standard deviation only when at least two measurements exist.</li>
+            <li><strong>Keep failures explicit.</strong> Mark each run's completion status before aggregation. Do not silently mix incomplete or aborted runs into a clean-sample statistic.</li>
+            <li><strong>Report the spread.</strong> Include mean, standard deviation, CoV, min/max, sample count, and a clear low-confidence state for one sample; test thresholds and zero-mean behavior.</li>
+          </ol>
+          <div class="feature-callout"><p><strong>Implementation note:</strong> the current CLI aggregates returned measurements even when a target exits non-zero. A stricter valid-sample policy should be added deliberately and tested rather than assumed.</p></div>
+        </section>
+        <section class="feature-section" aria-labelledby="use-title"><h2 id="use-title">How to use it</h2>
+          <p>Choose enough measured runs to observe spread. This sample report is illustrative only; real values depend on workload and hardware.</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli run workload.py --runs 5 --warmup 1 --json run.json</pre></div>
+          <div class="code-wrap"><pre class="code-block">CONFIDENCE: 5 runs, mean 412.500 J +- 6.200 J, CoV 1.50%, HIGH</pre></div>
+        </section>
+        <section class="feature-section" aria-labelledby="edge-title"><h2 id="edge-title">Edge cases &amp; gotchas</h2>
+          <ul>
+            <li>A one-run result has no measured sample spread. DoL8 labels it LOW rather than inferring confidence from a zero standard deviation.</li>
+            <li>Baseline subtraction is an estimate. Idle power can change between baseline and target, and short workloads are especially sensitive to that error.</li>
+            <li>Repeated measurements can still be biased by thermal drift, background processes, or changing power policy. Repeats do not replace a controlled setup.</li>
+            <li>When mean energy is zero, CoV needs special handling to avoid division by zero.</li>
+            <li>Do not discard outliers without a stated rule; preserve the raw samples so a reviewer can inspect them.</li>
+          </ul>
+        </section>
+        <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
+          <div class="related-links">
+            <a href="/features/rapl-counters"><span>01 / COUNTERS</span>Direct RAPL reads</a>
+            <a href="/features/ci-energy-gates"><span>06 / AUTOMATION</span>CI energy gates</a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-brand">Built with PJY Team</div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/#docs">Docs</a>
+      <a href="/#install">Install</a>
+      <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+    </nav>
+  </footer>
+  <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
+  </div>
+  <script src="/script.js" defer></script>
+</body>
+</html>

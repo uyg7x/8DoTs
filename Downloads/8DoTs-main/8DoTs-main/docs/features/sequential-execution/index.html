@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A1428">
+  <meta name="description" content="How DoL8 runs one target at a time, enforces timeouts, and cleans up target process trees.">
+  <title>Sequential target runs — Energy CLI | DoL8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+  <header class="site-header">
+    <div class="nav-row">
+      <div class="brand-group">
+      </div>
+  <main class="frame feature-document">
+    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
+          <div class="feature-sections">
+        <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
+          <p>A target runner is the boundary between a measurement tool and the program being measured. It starts one script or command, captures its output and exit status, and measures the interval around that target.</p>
+          <p>DoL8 runs requested targets sequentially. A directory is invoked through pytest, a Python file uses the active Python interpreter, and other targets are launched as commands. The default timeout is 600 seconds.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="why-title"><h2 id="why-title">Why it matters</h2>
+          <p>Concurrent targets compete for CPU, caches, and power limits. Their energy counters overlap, so the result cannot be attributed cleanly to either target. One-at-a-time execution gives each measurement a distinct start and end.</p>
+          <p>Runaway children are another measurement hazard: a timed-out parent can leave descendants consuming energy after the tool has moved on. Cleanup must cover the process tree, not only the original PID.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>
+          <p><code>TargetRunner</code> starts the child with captured stdout and stderr. On POSIX it creates a new session, giving the target an isolated process group. If the timeout expires, DoL8 sends SIGTERM to that group, waits up to two seconds, then escalates to SIGKILL for stragglers and checks for survivors.</p>
+          <p>The runner records return code, captured output, wall duration, timeout state, and surviving process IDs. DoL8 labels interrupted reports as partial. A normal non-zero exit still has a counter interval and is surfaced through the CLI exit status.</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli run workload.py --timeout 120 --runs 3
+
+# One target at a time; never overlap counter intervals.
+for target in targets:
+    result = measure_and_run(target, timeout_seconds=120)</pre></div>
+          <p>On POSIX, process-group signaling is used; other platforms follow a separate termination path. Energy profiling itself is supported only on Linux bare metal with readable RAPL counters.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="build-title"><h2 id="build-title">What to build</h2>
+          <ol class="build-steps">
+            <li><strong>Resolve the command.</strong> In <code>dol8/cli.py</code>, map Python scripts to the selected interpreter and preserve explicit executable commands.</li>
+            <li><strong>Isolate each run.</strong> In <code>dol8/runner.py</code>, start a fresh POSIX session/process group, capture both streams concurrently, and use monotonic time for wall duration.</li>
+            <li><strong>Bound execution.</strong> Validate that timeout is positive. On expiry, terminate the whole group, wait a defined grace period, escalate, and report any survivors.</li>
+            <li><strong>Keep status with metrics.</strong> Store exit code, timed-out/interrupted state, duration, and whether the sample is complete. Decide explicitly whether failed or partial work belongs in aggregates.</li>
+            <li><strong>Test process trees.</strong> Use <code>tests/fixtures/forever.py</code> and <code>spawn_tree.py</code> to assert timeout handling, cleanup, output capture, and survivor reporting without relying on real RAPL.</li>
+          </ol>
+          <div class="feature-callout"><p><strong>Current behavior:</strong> a timed-out target is stopped and returns a non-zero run status, but its counter measurement is still present in the aggregation path. Excluding aborted samples requires an explicit validity policy.</p></div>
+        </section>
+        <section class="feature-section" aria-labelledby="use-title"><h2 id="use-title">How to use it</h2>
+          <p>Set a timeout appropriate for the workload. Multiple targets in one invocation are processed in order; example durations and values below are illustrative.</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli run slow_job.py quick_check.py --timeout 90 --runs 3</pre></div>
+          <div class="code-wrap"><pre class="code-block">[1/2] slow_job.py .... OK  12.40s | 310.0J +- 4.2 | 25.0W | 71.0C
+[2/2] quick_check.py .... OK  1.10s | 18.5J +- 0.8 | 16.8W | 69.0C</pre></div>
+        </section>
+        <section class="feature-section" aria-labelledby="edge-title"><h2 id="edge-title">Edge cases &amp; gotchas</h2>
+          <ul>
+            <li>Process-group support differs by operating system. Test Windows cleanup separately; do not claim POSIX signals are portable.</li>
+            <li>A child can spawn descendants that outlive the parent. Snapshot and clean up descendants, then report survivors instead of hiding them.</li>
+            <li>Targets may emit large output streams. Drain stdout and stderr concurrently to avoid pipe-buffer deadlocks.</li>
+            <li>Timeouts, Ctrl+C, target crashes, and tool failures are distinct outcomes and should map to documented exit codes.</li>
+            <li>A failed process can still consume measurable energy. Preserve that fact in raw output while keeping incomplete samples out of any clean comparison by policy.</li>
+          </ul>
+        </section>
+        <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
+          <div class="related-links">
+            <a href="/features/statistical-variation"><span>03 / VARIATION</span>Statistical confidence</a>
+            <a href="/features/export-formats"><span>05 / EXPORT</span>JSON and CSV</a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-brand">Built with PJY Team</div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/#docs">Docs</a>
+      <a href="/#install">Install</a>
+      <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+    </nav>
+  </footer>
+  <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
+  </div>
+  <script src="/script.js" defer></script>
+</body>
+</html>

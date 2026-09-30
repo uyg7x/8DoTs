@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A1428">
+  <meta name="description" content="How DoL8 exports measurement metadata and metrics as JSON, and sampled energy timelines as CSV.">
+  <title>JSON and CSV — Energy CLI | DoL8</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Correct: Goes up to the main docs folder -->
+<link rel="stylesheet" href="../../styles.css">
+<script src="../../script.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+  <header class="site-header">
+    <div class="nav-row">
+      <div class="brand-group">
+      </div>
+  <main class="frame feature-document">
+    <article class="view" data-view-panel="home" aria-labelledby="feature-title">
+      <header class="feature-hero">
+           <div class="feature-sections">
+        <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
+          <p>Exports turn a terminal result into data that can be archived, compared, plotted, or checked by another program. DoL8 writes a structured JSON result and a CSV timeline through the <code>--json</code> and <code>--csv</code> options.</p>
+          <p>The current JSON contract includes tool/version/timestamp/CPU/OS metadata, duration and energy metrics, per-domain values, thermal fields, and repeated-run statistics. CSV stores time-series sample rows.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="why-title"><h2 id="why-title">Why it matters</h2>
+          <p>Terminal text is easy to read once but difficult to compare across builds. A stable structured contract lets scripts, dashboards, and notebooks process measurements without scraping presentation text.</p>
+          <p>A timeline is valuable for understanding when power or temperature changed during a run. It is distinct from a summary: consumers need units, field definitions, and a clear statement of what data was sampled.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>
+          <p><code>dol8/report.py</code> builds JSON metadata and metric groups; the project validates the shape against <code>docs/schema.json</code>. Timeline CSV uses the columns <code>t_seconds</code>, <code>joules_cum</code>, <code>watts</code>, and <code>temp_c</code>. The poller samples at 100 ms and the exported timeline keeps one representative sample per one-second bucket.</p>
+          <div class="code-wrap"><pre class="code-block">t_seconds,joules_cum,watts,temp_c
+0,2.810,28.100,62.0
+1,31.220,28.410,63.0
+2,59.840,28.620,64.0</pre></div>
+          <p>Example current JSON shape (values are illustrative):</p>
+          <div class="code-wrap"><pre class="code-block">{
+  "metadata": {
+    "tool": "DoL8",
+    "version": "0.1.0",
+    "timestamp": "2026-09-27T12:00:00+00:00",
+    "cpu": "CPU model",
+    "os": "Linux",
+    "measurement": "high-resolution estimate"
+  },
+  "metrics": {
+    "duration_seconds": 14.224,
+    "energy_joules": 412.5,
+    "energy_kwh": 0.00011458,
+    "avg_watts": 29.0,
+    "peak_watts": 46.2
+  },
+  "per_domain": {"PACKAGE": 412.5},
+  "statistics": {"runs": 5, "mean_j": 412.5, "stdev_j": 6.2}
+}</pre></div>
+          <p>Use <code>pandas.read_csv("timeline.csv")</code> for plotting and <code>jq '.metrics.energy_joules' result.json</code> for quick shell inspection.</p>
+        </section>
+        <section class="feature-section" aria-labelledby="build-title"><h2 id="build-title">What to build</h2>
+          <ol class="build-steps">
+            <li><strong>Keep a versioned contract.</strong> Extend <code>docs/schema.json</code> alongside <code>dol8/report.py</code>. Add <code>schema_version: 1</code> before downstream users depend on incompatible shapes.</li>
+            <li><strong>Make provenance useful.</strong> Add hostname and kernel metadata if desired, and document which fields can be absent. The current exporter has CPU and OS but not hostname or kernel.</li>
+            <li><strong>Preserve time-series data.</strong> Add the sampled timeline to JSON if JSON-only consumers need it; today the JSON converter omits timeline while <code>--csv</code> writes it separately.</li>
+            <li><strong>Define CSV semantics.</strong> Document units, bucket selection, missing temperatures, and column order; keep the header stable for pandas and spreadsheet imports.</li>
+            <li><strong>Validate outputs.</strong> Test single runs, multi-target results, partial reports, optional sensors, and exact CSV headers against the published schema and examples.</li>
+          </ol>
+          <div class="feature-callout"><p><strong>Compatibility note:</strong> the versioned schema, hostname/kernel fields, and JSON timeline above are recommended additions; they are not present in the current JSON output.</p></div>
+        </section>
+        <section class="feature-section" aria-labelledby="use-title"><h2 id="use-title">How to use it</h2>
+          <p>Write both a machine-readable summary and the timeline from a measured run. The output values are illustrative.</p>
+          <div class="code-wrap"><pre class="code-block">python -m dol8.cli run workload.py --runs 5 --json result.json --csv timeline.csv</pre></div>
+          <div class="code-wrap"><pre class="code-block">python -c "import pandas as pd; print(pd.read_csv('timeline.csv').describe())"
+jq '.metrics.energy_joules, .statistics.confidence' result.json</pre></div>
+        </section>
+        <section class="feature-section" aria-labelledby="edge-title"><h2 id="edge-title">Edge cases &amp; gotchas</h2>
+          <ul>
+            <li>Multiple-target JSON has a wrapper containing per-file documents and a summary; consumers should handle both shapes.</li>
+            <li>Partial or interrupted runs must be identifiable. Do not interpret a missing optional thermal value as zero.</li>
+            <li>The CSV timeline currently comes from the last measured run in a multi-run invocation, not every individual run.</li>
+            <li>One-second representative buckets can hide brief power peaks; peak watts are tracked separately from the CSV timeline.</li>
+            <li>Keep energy in joules and power in watts explicit. Never silently change units or field meanings within the same schema version.</li>
+          </ul>
+        </section>
+        <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
+          <div class="related-links">
+            <a href="/features/sequential-execution"><span>04 / EXECUTION</span>Sequential target runs</a>
+            <a href="/features/ci-energy-gates"><span>06 / AUTOMATION</span>CI energy gates</a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-brand">Built with PJY Team</div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="/#docs">Docs</a>
+      <a href="/#install">Install</a>
+      <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
+    </nav>
+  </footer>
+  <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
+  </div>
+  <script src="/script.js" defer></script>
+</body>
+</html>
