@@ -1,3 +1,6 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Linux%20bare--metal-lightgrey)
 <div align="center">
   <pre style="font-family: monospace; font-size: 1.3em; line-height: 1.2; margin: 0;">
     <span style="color: orange;">
@@ -14,9 +17,8 @@
     </span>
   </pre>
 </div>
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Platform](https://img.shields.io/badge/platform-Linux%20bare--metal-lightgrey)](https://www.kernel.org/)
+
+
 
 8DoTs (internally structured as the `dol8` Python package) is a command-line profiling tool designed to make energy consumption visible during software development. While execution time has always been a standard metric, energy use has remained largely invisible. 8DoTs reads hardware energy counters (RAPL - Running Average Power Limit) and thermal sensors directly from the Linux kernel to provide repeatable, high-resolution estimates of how much energy a specific workload consumes, how much heat it generates, and whether it triggers thermal throttling.
 
