@@ -53,18 +53,20 @@
           <span class="terminal-state">ESTIMATE</span>
         </div>
         <div class="terminal-screen">
-          <p class="terminal-command"><span>$</span> dol8 run train_model.py --runs 5</p>
-          <pre class="report-art"><span class="hot">===== DoL8 REPORT (HIGH-RESOLUTION ESTIMATE) =====</span>
-Target: train_model.py
-CPU/OS: Intel(R) Core(TM) / Linux
-TIME: 14.224s (+- 0.318s)
-ENERGY: 412.500 J (0.00011458 kWh); baseline removed 18.200 J
-  PACKAGE: 412.500 J [####################] 100.0%
-POWER: avg 29.000 W, peak 46.200 W
-THERMAL: baseline 62.0 C, peak 78.5 C, avg 73.1 C, end 76.0 C, rise 16.5 C
+<p class="terminal-command"><span>$</span> dol8 run test_energy.py --runs 3</p>
+        <pre class="report-art"><span class="hot">===== DoL8 REPORT (HIGH-RESOLUTION ESTIMATE) =====</span>
+Target: test_energy.py
+CPU/OS: AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx / Linux
+TIME: 2.099s (+- 0.044s)
+ENERGY: 12.292 J (0.00000341 kWh); baseline removed 20.789 J
+  PACKAGE: 12.292 J [####################] 100.0%
+POWER: avg 5.857 W, peak 18.960 W
+THERMAL: baseline 60.3 C, peak 60.6 C, avg 60.2 C, end 60.5 C, rise 0.3 C
 THROTTLING: no
-CONFIDENCE: 5 runs, mean 412.500 J +- 6.200 J, CoV 1.50%, HIGH</pre>
-          <div class="report-caption"><span>Illustrative values only. This is a designed terminal visual, not a captured hardware measurement.</span><span>RAPL / PACKAGE</span></div>
+CONFIDENCE: 3 runs, mean 12.292 J +- 0.167 J, CoV 1.36%, HIGH
+ECONOMICS: 0.00000041 per run, 0.0150 per year
+CO2: 0.002 g per SCI-aligned estimation</pre>
+          <div class="report-caption"><span></span><span>RAPL / PACKAGE</span></div>
         </div>
       </div>
 
