@@ -51,7 +51,7 @@
     code, pre, kbd { font-family: var(--mono); }
     code { color: var(--orange-light); }
 
-    .frame { width: min(var(--content), calc(100% - 48px)); margin-inline: auto; }
+    .frame { width: min(var(--content), calc(100% - 48px)); margin-inline: auto; padding-top: calc(68px + 16px); }
     .site-header {
       position: sticky;
       z-index: 10;
@@ -61,6 +61,7 @@
       background: rgba(10, 20, 40, 0.96);
       border-bottom: 1px solid var(--orange);
       backdrop-filter: blur(14px);
+      padding: 0 24px;
     }
     .nav-row { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .brand-group { display: flex; min-width: 0; align-items: center; gap: 12px; }
