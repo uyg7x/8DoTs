@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dol8"
+version = "0.1.0"
+description = "Developer-first Linux RAPL energy profiler"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["psutil>=5.9"]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "pytest-cov>=4"]
+
+[project.scripts]
+dol8 = "dol8.cli:entrypoint"
+
+[tool.setuptools.packages.find]
+include = ["dol8*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
