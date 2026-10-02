@@ -9,19 +9,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
- <!-- Correct: Goes up to the main docs folder -->
-<link rel="stylesheet" href="../../styles.css">
-<script src="../../script.js" defer></script>
+  <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
   <div class="site-shell">
   <header class="site-header">
     <div class="nav-row">
       <div class="brand-group">
+        <a class="brand" href="../../index.html#home" aria-label="DoL8 home">DoL<span class="brand-eight">8</span></a>
       </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="../../index.html#home">Home</a>
+        <a href="../../index.html#docs">Docs</a>
+        <a href="../../index.html#install">Install</a>
+        <a href="https://github.com/uyg7x/8DoTs" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+    </div>
+  </header>
+
   <main class="frame feature-document">
     <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-           <div class="feature-sections">
+      <header class="feature-hero">
+        <p class="eyebrow">01 / COUNTERS</p>
+        <h1 id="feature-title">Direct RAPL reads</h1>
+        <p class="feature-summary">Dynamically discovers powercap domains and handles counter wraps using each domain's reported range.</p>
+        <a class="feature-back" href="../../index.html#home">&#8592; Back to overview</a>
+      </header>
+
+      <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>RAPL is a set of hardware energy counters exposed by the Linux kernel through the powercap interface. A reading is cumulative: it tells you how much energy a domain has used since its counter began, not the energy of one process by itself.</p>
           <p>DoL8 reads before and after a target, then computes the difference. A package domain can represent the processor package; nested domains may report core, uncore, or DRAM energy when the CPU and firmware expose them.</p>
@@ -70,8 +85,8 @@ CONFIDENCE: 5 runs, mean 412.500 J +- 6.200 J, CoV 1.50%, HIGH</pre></div>
         </section>
         <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
           <div class="related-links">
-            <a href="/features/thermal-context"><span>02 / THERMAL</span>Temperature context</a>
-            <a href="/features/statistical-variation"><span>03 / VARIATION</span>Statistical confidence</a>
+            <a href="../thermal-context/index.html"><span>02 / THERMAL</span>Temperature context</a>
+            <a href="../statistical-variation/index.html"><span>03 / VARIATION</span>Statistical confidence</a>
           </div>
         </section>
       </div>
@@ -81,13 +96,13 @@ CONFIDENCE: 5 runs, mean 412.500 J +- 6.200 J, CoV 1.50%, HIGH</pre></div>
     <div class="footer-brand">Built with PJY Team</div>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="/#docs">Docs</a>
-      <a href="/#install">Install</a>
+      <a href="../../index.html#docs">Docs</a>
+      <a href="../../index.html#install">Install</a>
       <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
     </nav>
   </footer>
   <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
   </div>
-  <script src="/script.js" defer></script>
+  <script src="../../script.js" defer></script>
 </body>
 </html>

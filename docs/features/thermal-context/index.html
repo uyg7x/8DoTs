@@ -9,19 +9,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
- <!-- Correct: Goes up to the main docs folder -->
-<link rel="stylesheet" href="../../styles.css">
-<script src="../../script.js" defer></script>
+  <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
   <div class="site-shell">
   <header class="site-header">
     <div class="nav-row">
       <div class="brand-group">
+        <a class="brand" href="../../index.html#home" aria-label="DoL8 home">DoL<span class="brand-eight">8</span></a>
       </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="../../index.html#home">Home</a>
+        <a href="../../index.html#docs">Docs</a>
+        <a href="../../index.html#install">Install</a>
+        <a href="https://github.com/uyg7x/8DoTs" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+    </div>
+  </header>
+
   <main class="frame feature-document">
     <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-           <div class="feature-sections">
+      <header class="feature-hero">
+        <p class="eyebrow">02 / THERMAL</p>
+        <h1 id="feature-title">Temperature context</h1>
+        <p class="feature-summary">Samples available CPU thermal zones and reports throttling as unknown when frequency data is unavailable.</p>
+        <a class="feature-back" href="../../index.html#home">&#8592; Back to overview</a>
+      </header>
+
+      <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>Temperature context adds a view of the machine's thermal state alongside energy and runtime. Linux commonly exposes thermal zones at <code>/sys/class/thermal/thermal_zone*/</code>; each zone has a type and a temperature in millidegrees Celsius.</p>
           <p>DoL8 currently reads sensor data through <code>psutil</code>, prefers known CPU sensor families such as <code>coretemp</code> and <code>k10temp</code>, and stores valid samples during a run. It reports baseline, peak, average, ending temperature, and rise when readings are available.</p>
@@ -66,8 +81,8 @@ THROTTLING: unknown (no frequency sensor)</pre></div>
         </section>
         <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
           <div class="related-links">
-            <a href="/features/rapl-counters"><span>01 / COUNTERS</span>Direct RAPL reads</a>
-            <a href="/features/statistical-variation"><span>03 / VARIATION</span>Statistical confidence</a>
+            <a href="../rapl-counters/index.html"><span>01 / COUNTERS</span>Direct RAPL reads</a>
+            <a href="../statistical-variation/index.html"><span>03 / VARIATION</span>Statistical confidence</a>
           </div>
         </section>
       </div>
@@ -77,13 +92,13 @@ THROTTLING: unknown (no frequency sensor)</pre></div>
     <div class="footer-brand">Built with PJY Team</div>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="/#docs">Docs</a>
-      <a href="/#install">Install</a>
+      <a href="../../index.html#docs">Docs</a>
+      <a href="../../index.html#install">Install</a>
       <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
     </nav>
   </footer>
   <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
   </div>
-  <script src="/script.js" defer></script>
+  <script src="../../script.js" defer></script>
 </body>
 </html>
