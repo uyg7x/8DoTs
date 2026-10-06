@@ -7,9 +7,9 @@
 ![Web Profiling](https://img.shields.io/badge/Web-Profiling-46A171)
 
 # DoL8
-   ##समय मापने से रूप दिखता है, ऊर्जा मापने से सत्य ज्ञात होता है।
-   ##测时见形，测能知真
-   ##To measure time is to see the form. To measure energy is to know the truth
+               **समय मापने से रूप दिखता है, ऊर्जा मापने से सत्य ज्ञात होता है।**
+                              **测时见形，测能知真**
+   **To measure time is to see the form. To measure energy is to know the truth**
 
 ```text
 ██████╗  ██████╗ ██╗
