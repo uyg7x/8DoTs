@@ -24,6 +24,7 @@
       </div>
       <nav class="nav-links" aria-label="Main navigation">
         <a href="#home" data-view-link="home" aria-current="page">Home</a>
+        <a href="#feature" data-view-link="feature">Feature</a>
         <a href="#docs" data-view-link="docs">Docs</a>
         <div class="install-menu">
           <a class="install-trigger" href="#install" data-view-link="install" aria-haspopup="true" aria-expanded="false" aria-controls="install-dropdown">Install</a>
@@ -47,7 +48,6 @@
 
   <main class="frame">
     <section id="home" class="" data-view-panel="home" aria-labelledby="home-title">
-      <p class="eyebrow"></p>
       <div class="hero-terminal" role="img" aria-label="Illustrative DoL8 terminal report with energy, power, temperature, and confidence values">
         <div class="terminal-bar">
           <span class="terminal-dot" aria-hidden="true"></span><span class="terminal-dot" aria-hidden="true"></span><span class="terminal-dot" aria-hidden="true"></span>
@@ -68,7 +68,7 @@ THROTTLING: no
 CONFIDENCE: 3 runs, mean 12.292 J +- 0.167 J, CoV 1.36%, HIGH
 ECONOMICS: 0.00000041 per run, 0.0150 per year
 CO2: 0.002 g per SCI-aligned estimation</pre>
-          <div class="report-caption"><span></span><span>RAPL / PACKAGE</span></div>
+          <div class="report-caption"><span>RAPL / PACKAGE</span></div>
         </div>
       </div>
 
@@ -103,14 +103,19 @@ python -m dol8.cli doctor</pre></div>
         </div>
         <div class="video-frame">
           <iframe
-            src="https://www.youtube.com/embed/vVB6db1LIVQ?si=QG9k3GoRZGvgdtYG"
+            src="https://www.youtube.com/embed/vVB6db1LIVQ?enablejsapi=1&amp;playsinline=1&amp;rel=0"
             title="DoL8 walkthrough: how to use it and how it works"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            playsinline></iframe>
         </div>
-        <p class="small-note video-fallback-note">If the embedded player is unavailable, <a href="https://www.youtube.com/watch?v=vVB6db1LIVQ" target="_blank" rel="noopener noreferrer">open the video on YouTube</a>.</p>
+        <div class="video-actions">
+          <a class="video-watch-btn" href="https://www.youtube.com/watch?v=vVB6db1LIVQ" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>Open in YouTube</span>
+          </a>
+          <span class="small-note video-fallback-note">Tap above if your mobile browser blocks embedded player playback.</span>
+        </div>
       </section>
 
      <section class="section-block" aria-labelledby="features-title">
@@ -176,6 +181,849 @@ python -m dol8.cli doctor</pre></div>
         </div>
       </section>
     </section>
+
+    <section id="feature" class="view" data-view-panel="feature" aria-labelledby="feature-title" hidden>
+      <p class="docs-updated">Engine Showcase &bull; v1.0.0</p>
+
+      <!-- Main Topics Quick Jump Navigation -->
+      <nav class="feature-topic-nav" aria-label="Feature Topics Index">
+        <span class="feature-topic-nav-label">MAIN TOPICS:</span>
+        <div class="feature-topic-nav-links">
+          <a href="#topic-01" class="topic-nav-pill"><span class="topic-pill-num">01</span> Comparison Engine</a>
+          <a href="#topic-02" class="topic-nav-pill"><span class="topic-pill-num">02</span> Automated Profiling &amp; Advisory Engine</a>
+          <a href="#topic-03" class="topic-nav-pill"><span class="topic-pill-num">03</span> Precision Linux Energy Profiler</a>
+        </div>
+      </nav>
+
+      <!-- Main Topic 01 Highlight -->
+      <div id="topic-01" class="main-topic-highlight-wrapper">
+        <div class="main-topic-badge">
+          <span class="main-topic-num-tag">01</span>
+          <span class="main-topic-title-text">Comparison Engine</span>
+          <span class="main-topic-indicator">CORE ENGINE</span>
+        </div>
+      </div>
+      <h1 id="feature-title">8DoTs Folder Comparison Engine</h1>
+      <p class="lead">A Python-based tool that measures and compares the energy consumption of two different versions of a project, quantifying environmental impact and code efficiency deltas.</p>
+
+      <!-- What It Is Callout -->
+      <div class="callout" style="margin-top: 24px;">
+        <p class="eyebrow" style="margin-bottom: 8px;">What It Is</p>
+        <p style="margin: 0; color: var(--text); font-size: 15px; line-height: 1.7;">
+          The <strong>8DoTs Folder Comparison Engine</strong> is a Python-based tool that measures and compares the energy consumption of two different versions of a project. It helps developers quantify the environmental impact and efficiency improvements (or regressions) of their code changes.
+        </p>
+      </div>
+
+      <!-- Key Features -->
+      <section class="section-block" style="margin-top: 52px;" aria-labelledby="key-features-title">
+        <div class="section-intro">
+          <p class="eyebrow">Core Capabilities</p>
+          <h2 id="key-features-title">Key Features</h2>
+          <p>Six specialized measurement and verification features built for hardware-accurate comparisons.</p>
+        </div>
+        <div class="feature-spec-grid">
+          <div class="spec-card">
+            <span class="spec-badge">01 / RAPL</span>
+            <h3>Energy Measurement</h3>
+            <p>Uses Intel RAPL (Running Average Power Limit) to measure actual CPU energy consumption in Joules.</p>
+          </div>
+          <div class="spec-card">
+            <span class="spec-badge">02 / RUNTIME</span>
+            <h3>Performance Tracking</h3>
+            <p>Records execution time alongside energy usage to reveal the complete efficiency profile.</p>
+          </div>
+          <div class="spec-card">
+            <span class="spec-badge">03 / SENSORS</span>
+            <h3>Thermal Monitoring</h3>
+            <p>Checks CPU temperature before testing to ensure accurate, unskewed results without throttling.</p>
+          </div>
+          <div class="spec-card">
+            <span class="spec-badge">04 / SAMPLING</span>
+            <h3>Multiple Test Runs</h3>
+            <p>Averages results over multiple test iterations to guarantee high statistical reliability.</p>
+          </div>
+          <div class="spec-card">
+            <span class="spec-badge">05 / TERMINAL</span>
+            <h3>Visual Feedback</h3>
+            <p>Color-coded terminal output clearly highlighting performance improvements or regressions.</p>
+          </div>
+          <div class="spec-card">
+            <span class="spec-badge">06 / SAFETY</span>
+            <h3>Pre-flight Checks</h3>
+            <p>Warns about elevated CPU temperatures or hostile thermal states before profiling begins.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="section-block" style="margin-top: 56px;" aria-labelledby="how-it-works-title">
+        <div class="section-intro">
+          <p class="eyebrow">Step-By-Step Workflow</p>
+          <h2 id="how-it-works-title">How It Works</h2>
+          <p>The comparative pipeline from directory discovery to differential efficiency verdicts.</p>
+        </div>
+
+        <ol class="workflow-steps">
+          <li>
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <strong>Takes two folder paths</strong>
+              <p>Receives the baseline directory (old version) and candidate directory (new version) to evaluate.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <strong>Identifies the entry point file</strong>
+              <p>Automatically discovers the execution entry point (default: <code>main.py</code>).</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <strong>Runs each version multiple times</strong>
+              <p>Executes sequential benchmark runs while capturing all hardware metrics:</p>
+              <ul class="sub-points">
+                <li>Energy consumption (Joules) via RAPL</li>
+                <li>Execution time (seconds)</li>
+                <li>CPU temperature monitoring</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">04</div>
+            <div class="step-content">
+              <strong>Calculates the percentage difference</strong>
+              <p>Analyzes the counter deltas and computes percentage differences in runtime and Joules between versions.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">05</div>
+            <div class="step-content">
+              <strong>Provides a clear verdict</strong>
+              <p>Outputs a definitive verdict identifying which version is measurably more energy-efficient.</p>
+            </div>
+          </li>
+        </ol>
+
+        <!-- Terminal Output Demo -->
+        <div class="hero-terminal" style="margin-top: 32px;" role="img" aria-label="Terminal output of 8DoTs Folder Comparison Engine">
+          <div class="terminal-bar">
+            <span class="terminal-dot" aria-hidden="true"></span>
+            <span class="terminal-dot" aria-hidden="true"></span>
+            <span class="terminal-dot" aria-hidden="true"></span>
+            <span class="terminal-title">8dots / folder-comparison-engine</span>
+            <span class="terminal-state">VERDICT: IMPROVED</span>
+          </div>
+          <div class="terminal-screen">
+            <p class="terminal-command"><span>$</span> python compare_folders.py ./v1_old ./v2_new --runs 5</p>
+            <pre class="report-art"><span class="hot">===== 8DoTs FOLDER COMPARISON REPORT =====</span>
+Target A (Old): ./v1_old/main.py
+Target B (New): ./v2_new/main.py
+Hardware: Intel Core i7-12700H (RAPL Package)
+Pre-flight: Thermal 48.2 C (PASS) | Runs: 5
+
+[Old Version]  Time: 3.421s  | Energy: 24.180 J | Temp Peak: 58.4 C
+[New Version]  Time: 2.105s  | Energy: 14.520 J | Temp Peak: 53.1 C
+
+==================================================
+Runtime Delta: -38.47% (-1.316s)
+Energy Delta:  <span class="good">-39.95% (-9.660 Joules)</span>
+<span class="good">VERDICT: NEW VERSION IS 39.95% MORE ENERGY-EFFICIENT</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technical Requirements -->
+      <section class="section-block" style="margin-top: 56px;" aria-labelledby="requirements-title">
+        <div class="section-intro">
+          <p class="eyebrow">Prerequisites &amp; Environment</p>
+          <h2 id="requirements-title">Technical Requirements</h2>
+          <p>Required platform and dependencies to capture bare-metal RAPL energy counters.</p>
+        </div>
+        <div class="requirements-box">
+          <div class="req-item">
+            <span class="req-icon" aria-hidden="true">🐧</span>
+            <div>
+              <strong>Linux-based system</strong>
+              <p>Kernel support exposing <code>/sys/class/thermal/</code> and RAPL powercap interfaces.</p>
+            </div>
+          </div>
+          <div class="req-item">
+            <span class="req-icon" aria-hidden="true">⚡</span>
+            <div>
+              <strong>Intel CPU with RAPL support</strong>
+              <p>Processor hardware exposing Running Average Power Limit energy model registers.</p>
+            </div>
+          </div>
+          <div class="req-item">
+            <span class="req-icon" aria-hidden="true">🐍</span>
+            <div>
+              <strong>Python 3 &amp; Dependencies</strong>
+              <p>Python 3.9+ runtime with the required <code>dol8</code> profiling module installed.</p>
+            </div>
+          </div>
+          <div class="req-item">
+            <span class="req-icon" aria-hidden="true">🔒</span>
+            <div>
+              <strong>Root / Administrator privileges</strong>
+              <p>Elevated or configured udev access required to read RAPL counter sysfs nodes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Use Cases for Your Website -->
+      <section class="section-block" style="margin-top: 56px; margin-bottom: 24px;" aria-labelledby="usecases-title">
+        <div class="section-intro">
+          <p class="eyebrow">Integration &amp; Value</p>
+          <h2 id="usecases-title">Use Cases for Your Website</h2>
+          <p>Ways this engine can be presented and integrated across software initiatives.</p>
+        </div>
+        <div class="usecase-grid">
+          <div class="usecase-card">
+            <span class="usecase-tag">SUSTAINABILITY</span>
+            <h3>Green Computing Initiative</h3>
+            <p>Showcasing open-source tooling for sustainable software development and carbon-aware engineering practices.</p>
+          </div>
+          <div class="usecase-card">
+            <span class="usecase-tag">PROFILING</span>
+            <h3>Code Optimization Dashboard</h3>
+            <p>Serve as a centerpiece in a suite of developer performance and energy profiling tools.</p>
+          </div>
+          <div class="usecase-card">
+            <span class="usecase-tag">EDUCATION</span>
+            <h3>Educational Resource</h3>
+            <p>Teaching students and teams about energy-aware programming, algorithmic cost, and thermal efficiency.</p>
+          </div>
+          <div class="usecase-card">
+            <span class="usecase-tag">CI/CD PIPELINE</span>
+            <h3>CI/CD Integration</h3>
+            <p>Automate energy regression testing in pull request workflows to prevent inefficient commits from deploying.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Major Horizontal Partition Between Main Topics -->
+      <div class="feature-partition-block" role="separator" aria-label="Topic separation">
+        <hr class="feature-divider" />
+      </div>
+
+      <!-- Feature 02: 8DoTs Automated Web Energy Profiler -->
+      <article class="feature-entry" aria-labelledby="feature-two-title">
+        <p class="docs-updated">Engine Showcase &bull; v1.0.0</p>
+
+        <!-- Main Topic 02 Highlight -->
+        <div id="topic-02" class="main-topic-highlight-wrapper">
+          <div class="main-topic-badge">
+            <span class="main-topic-num-tag">02</span>
+            <span class="main-topic-title-text">Automated Profiling &amp; Advisory Engine</span>
+            <span class="main-topic-indicator">ADVISORY ENGINE</span>
+          </div>
+        </div>
+        <h2 id="feature-two-title" style="font-size: 26px; margin-bottom: 16px;">1. Project Overview: 8DoTs Automated Web Energy Profiler</h2>
+        <p class="lead">8DoTs is a specialized development tool designed to measure the real-world energy consumption of web applications. Unlike traditional performance tools that estimate power usage based on CPU load or network traffic, 8DoTs reads data directly from hardware sensors to provide precise, actionable insights into how every click, animation, and script impacts energy efficiency.</p>
+
+        <!-- Key Features -->
+        <section class="section-block" style="margin-top: 48px;" aria-labelledby="advisor-features-title">
+          <div class="section-intro">
+            <p class="eyebrow">Core Capabilities</p>
+            <h3 id="advisor-features-title" style="font-size: 18px;">Key Features</h3>
+          </div>
+          <div class="feature-spec-grid">
+            <div class="spec-card">
+              <span class="spec-badge">01 / SENSORS</span>
+              <h3>Hardware-Accurate Measurement</h3>
+              <p>Utilizes Intel’s RAPL (Running Average Power Limit) interface to read actual energy draw in microjoules, ensuring zero estimation error.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">02 / EXPLORER</span>
+              <h3>Intelligent Auto-Explorer</h3>
+              <p>Automatically navigates your website using a headless browser, discovering and interacting with buttons, tabs, and links to simulate real user behavior.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">03 / TRACKING</span>
+              <h3>Event-Driven Tracking</h3>
+              <p>Correlates specific UI events—such as page loads, API fetches, and clicks—with spikes in energy consumption.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">04 / SCAN</span>
+              <h3>Deep Page Analysis</h3>
+              <p>Scans the DOM to identify energy-intensive elements, including large uncompressed images, excessive CSS animations, third-party scripts, and autoplay videos.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">05 / ADVISOR</span>
+              <h3>Actionable Recommendations</h3>
+              <p>Provides an "Energy Advisor" that doesn't just report problems but offers specific fixes, such as converting images to WebP, deferring scripts, or reducing DOM complexity.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">06 / REPORTING</span>
+              <h3>Multi-Format Reporting</h3>
+              <p>Generates detailed reports in color-coded terminal output, clean TXT/Markdown files, and professional PDFs for stakeholder review.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Core Engine: DoL8 RAPL Reader -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="core-engine-title">
+          <div class="section-intro">
+            <p class="eyebrow">Kernel Subsystem</p>
+            <h2 id="core-engine-title" style="font-size: 22px;">2. Core Engine: DoL8 RAPL Reader</h2>
+            <p>At the heart of 8DoTs is the DoL8 library, a lightweight, zero-overhead Python engine built to interface directly with Linux power management systems.</p>
+          </div>
+
+          <!-- How It Works -->
+          <div style="margin-top: 28px;">
+            <p class="eyebrow" style="margin-bottom: 8px;">Architecture</p>
+            <h3 style="font-size: 16px; color: var(--orange-light); margin-bottom: 16px;">How It Works</h3>
+            <div class="feature-spec-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+              <div class="spec-card">
+                <span class="spec-badge">SYSFS / INTERFACE</span>
+                <h3>Direct Sysfs Access</h3>
+                <p>DoL8 reads from <code>/sys/class/powercap</code>, bypassing high-level software estimations to get raw data from the CPU and memory controllers.</p>
+              </div>
+              <div class="spec-card">
+                <span class="spec-badge">OPTIMIZATION / PERF</span>
+                <h3>Zero-Overhead Design</h3>
+                <p>To ensure the measurement process itself doesn’t consume significant power, DoL8 keeps file handles open and uses <code>seek(0)</code> for repeated reads, avoiding the overhead of constant file opening and closing.</p>
+              </div>
+            </div>
+
+            <!-- Domain Discovery -->
+            <div class="spec-card" style="margin-top: 14px; padding: 20px;">
+              <span class="spec-badge">DOMAINS</span>
+              <h3 style="margin-bottom: 6px;">Domain Discovery</h3>
+              <p style="margin-bottom: 12px;">It automatically identifies available power domains, including:</p>
+              <div class="domain-grid">
+                <div class="domain-card">
+                  <span class="domain-name">PACKAGE</span>
+                  <span class="domain-desc">Total energy for the CPU package.</span>
+                </div>
+                <div class="domain-card">
+                  <span class="domain-name">CORE</span>
+                  <span class="domain-desc">Energy consumed by individual CPU cores.</span>
+                </div>
+                <div class="domain-card">
+                  <span class="domain-name">DRAM</span>
+                  <span class="domain-desc">Energy used by system memory.</span>
+                </div>
+                <div class="domain-card">
+                  <span class="domain-name">UNCORE</span>
+                  <span class="domain-desc">Energy for cache and memory controllers.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Counter Wrap-Around Handling -->
+            <div class="spec-card" style="margin-top: 14px; padding: 20px;">
+              <span class="spec-badge">OVERFLOW PROTECTION</span>
+              <h3 style="margin-bottom: 6px;">Counter Wrap-Around Handling</h3>
+              <p>RAPL counters are finite and reset when they reach their maximum value. DoL8 includes logic to detect these "wrap-arounds" and calculate the true total energy by adding the remaining range to the new reading.</p>
+            </div>
+          </div>
+
+          <!-- Technical Requirements -->
+          <div style="margin-top: 36px;">
+            <p class="eyebrow" style="margin-bottom: 8px;">Prerequisites</p>
+            <h3 style="font-size: 16px; color: var(--orange-light); margin-bottom: 16px;">Technical Requirements</h3>
+            <div class="requirements-box">
+              <div class="req-item">
+                <span class="req-icon" aria-hidden="true">🐧</span>
+                <div>
+                  <strong>Platform</strong>
+                  <p>Linux-only (requires access to the powercap subsystem).</p>
+                </div>
+              </div>
+              <div class="req-item">
+                <span class="req-icon" aria-hidden="true">⚡</span>
+                <div>
+                  <strong>Hardware</strong>
+                  <p>Intel processors (Sandy Bridge architecture or newer).</p>
+                </div>
+              </div>
+              <div class="req-item" style="grid-column: 1 / -1;">
+                <span class="req-icon" aria-hidden="true">🔒</span>
+                <div>
+                  <strong>Permissions</strong>
+                  <p>Requires read access to powercap files, which can be configured permanently via udev rules to avoid needing root privileges for every run.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. The Intelligent Energy Advisor -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="advisor-section-title">
+          <div class="section-intro">
+            <p class="eyebrow">DOM &amp; Resource Auditing</p>
+            <h2 id="advisor-section-title" style="font-size: 22px;">3. The Intelligent Energy Advisor</h2>
+            <p>8DoTs goes beyond simple metrics by providing an Intelligent Energy Advisor that analyzes the structural components of your web pages.</p>
+          </div>
+
+          <!-- Analysis Metrics -->
+          <div style="margin-top: 28px;">
+            <p class="eyebrow" style="margin-bottom: 8px;">Analysis Metrics</p>
+            <h3 style="font-size: 16px; color: var(--orange-light); margin-bottom: 16px;">Analysis Metrics</h3>
+            <div class="feature-spec-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+              <div class="spec-card">
+                <span class="spec-badge">IMAGES</span>
+                <h3>Image Efficiency</h3>
+                <p>Detects large-resolution images and uncompressed formats (PNG/BMP) that waste bandwidth and rendering energy.</p>
+              </div>
+              <div class="spec-card">
+                <span class="spec-badge">ANIMATIONS</span>
+                <h3>Animation Load</h3>
+                <p>Counts active CSS animations and transitions, which keep the GPU and CPU busy even when the user isn't interacting.</p>
+              </div>
+              <div class="spec-card">
+                <span class="spec-badge">DOM</span>
+                <h3>DOM Complexity</h3>
+                <p>Measures the total number of DOM elements, as larger trees require more processing power to render and update.</p>
+              </div>
+              <div class="spec-card">
+                <span class="spec-badge">SCRIPTS</span>
+                <h3>Third-Party Impact</h3>
+                <p>Identifies external scripts and iframes that may be loading heavy resources from other servers.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample Recommendations -->
+          <div style="margin-top: 36px;">
+            <p class="eyebrow" style="margin-bottom: 8px;">Recommendations</p>
+            <h3 style="font-size: 16px; color: var(--orange-light); margin-bottom: 16px;">Sample Recommendations</h3>
+            <div class="recommendations-list">
+              <div class="recommendation-card">
+                <div class="recommendation-icon" aria-hidden="true">💡</div>
+                <div>
+                  <p>"Found 3 large images. Use responsive srcset or lazy loading to reduce initial load energy."</p>
+                </div>
+              </div>
+              <div class="recommendation-card">
+                <div class="recommendation-icon" aria-hidden="true">💡</div>
+                <div>
+                  <p>"Detected 5 third-party scripts. Defer non-critical ones to improve main-thread efficiency."</p>
+                </div>
+              </div>
+              <div class="recommendation-card">
+                <div class="recommendation-icon" aria-hidden="true">💡</div>
+                <div>
+                  <p>"1500+ DOM elements detected. Simplify HTML structure to reduce rendering cost."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Integration & Reporting -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="integration-reporting-title">
+          <div class="section-intro">
+            <p class="eyebrow">Workflows</p>
+            <h2 id="integration-reporting-title" style="font-size: 22px;">4. Integration &amp; Reporting</h2>
+          </div>
+
+          <div class="role-grid">
+            <!-- For Developers -->
+            <div class="role-card">
+              <div class="role-header">
+                <span class="role-tag">DEV</span>
+                <h3>For Developers</h3>
+              </div>
+              <ul class="role-points">
+                <li>
+                  <strong>CI/CD Pipeline:</strong> Can be integrated into Linux-based CI/CD pipelines to benchmark the energy impact of every pull request.
+                </li>
+                <li>
+                  <strong>Docker Support:</strong> Runs in privileged Linux containers with access to host powercap interfaces.
+                </li>
+              </ul>
+            </div>
+
+            <!-- For Stakeholders -->
+            <div class="role-card">
+              <div class="role-header">
+                <span class="role-tag">STAKEHOLDERS</span>
+                <h3>For Stakeholders</h3>
+              </div>
+              <ul class="role-points">
+                <li>
+                  <strong>Cost Estimation:</strong> Converts energy usage into estimated cloud costs (based on $0.15/kWh).
+                </li>
+                <li>
+                  <strong>Carbon Footprint:</strong> Calculates estimated CO2 emissions (based on 450g CO2/kWh) to help meet sustainability goals.
+                </li>
+                <li>
+                  <strong>Professional Exports:</strong> Generates clean, color-stripped TXT and Markdown files for documentation, and formatted PDFs for presentations.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Why Use 8DoTs? -->
+        <section class="section-block" style="margin-top: 56px; margin-bottom: 24px;" aria-labelledby="why-use-title">
+          <div class="section-intro">
+            <p class="eyebrow">Sustainability</p>
+            <h2 id="why-use-title" style="font-size: 22px;">5. Why Use 8DoTs?</h2>
+          </div>
+
+          <div class="callout" style="margin-top: 20px;">
+            <p style="margin: 0; color: var(--text); font-size: 15px; line-height: 1.75;">
+              In an era where digital sustainability is becoming a key metric, 8DoTs provides the transparency needed to build efficient, eco-friendly web applications. By moving from estimation to hardware-level measurement, it empowers developers to make data-driven decisions that reduce both operational costs and environmental impact.
+            </p>
+          </div>
+        </section>
+      </article>
+
+      <!-- Major Horizontal Partition Between Main Topics -->
+      <div class="feature-partition-block" role="separator" aria-label="Topic separation">
+        <hr class="feature-divider" />
+      </div>
+
+      <!-- Feature 03: DoL8 High-Resolution Energy Profiler for Linux -->
+      <article class="feature-entry" aria-labelledby="feature-three-title">
+        <p class="docs-updated">Engine Showcase &bull; v0.1.0</p>
+
+        <!-- Main Topic 03 Highlight -->
+        <div id="topic-03" class="main-topic-highlight-wrapper">
+          <div class="main-topic-badge">
+            <span class="main-topic-num-tag">03</span>
+            <span class="main-topic-title-text">Precision Linux Energy Profiler</span>
+            <span class="main-topic-indicator">LINUX PROFILER</span>
+          </div>
+        </div>
+        <h2 id="feature-three-title" style="font-size: 26px; margin-bottom: 16px;">DoL8: High-Resolution Energy Profiler for Linux</h2>
+
+        <!-- Overview -->
+        <section class="section-block" style="margin-top: 24px;" aria-labelledby="dol8-overview-title">
+          <div class="section-intro">
+            <p class="eyebrow">Overview</p>
+            <h3 id="dol8-overview-title" style="font-size: 18px;">Precision Bare-Metal Profiling</h3>
+          </div>
+          <p class="lead">DoL8 (v0.1.0) is a precision energy profiling toolkit designed for Linux bare-metal environments. It provides high-resolution estimates of program energy consumption by leveraging Intel RAPL (Running Average Power Limit) counters via the powercap sysfs interface. Unlike generic power meters, DoL8 isolates workload-specific energy use through baseline subtraction, thermal-aware cooldowns, and rigorous process tree management.</p>
+        </section>
+
+        <!-- Key Features -->
+        <section class="section-block" style="margin-top: 48px;" aria-labelledby="dol8-features-title">
+          <div class="section-intro">
+            <p class="eyebrow">Core Capabilities</p>
+            <h3 id="dol8-features-title" style="font-size: 18px;">Key Features</h3>
+            <p>Nine specialized capabilities built for laboratory-grade energy measurement and attribution.</p>
+          </div>
+          <div class="feature-spec-grid">
+            <div class="spec-card">
+              <span class="spec-badge">01 / HARDWARE</span>
+              <h3>Hardware-Accurate Measurement</h3>
+              <p>Reads RAPL energy counters directly from <code>/sys/class/powercap</code> for CPU/package-level energy tracking.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">02 / BASELINE</span>
+              <h3>Baseline Subtraction</h3>
+              <p>Automatically measures idle system power before each run and subtracts it to report net workload energy.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">03 / THERMAL</span>
+              <h3>Thermal Awareness</h3>
+              <p>Monitors CPU temperature and enforces cooldown periods between runs to prevent thermal throttling from skewing benchmarks.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">04 / PROCESSES</span>
+              <h3>Robust Process Management</h3>
+              <p>Uses POSIX process groups and Linux child-subreaper (<code>prctl</code>) to ensure all spawned child processes are terminated and accounted for. Warns explicitly if survivor processes exist.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">05 / STATISTICS</span>
+              <h3>Statistical Rigor</h3>
+              <p>Supports configurable warmup runs, multiple measured iterations, and reports mean, standard deviation, and coefficient of variation.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">06 / CI/CD</span>
+              <h3>Energy Gate / CI Integration</h3>
+              <p>Save baselines and enforce energy budgets in CI pipelines with configurable percentage thresholds.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">07 / COMPARISON</span>
+              <h3>Multi-Target Comparison</h3>
+              <p>A/B test two scripts or executables with alternating measurements and automatic delta reporting.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">08 / OBSERVABILITY</span>
+              <h3>Observability Mode</h3>
+              <p><code>watch</code> command provides real-time machine energy monitoring with estimated application share attribution.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">09 / DIAGNOSTICS</span>
+              <h3>Environment Diagnostics</h3>
+              <p>Built-in <code>doctor</code> command validates RAPL access, counter movement, sensor availability, timing sources, and output permissions.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Supported Platforms -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="platforms-title">
+          <div class="section-intro">
+            <p class="eyebrow">Compatibility</p>
+            <h3 id="platforms-title" style="font-size: 18px;">Supported Platforms</h3>
+          </div>
+          <div class="requirements-box">
+            <div class="req-item">
+              <span class="req-icon" aria-hidden="true">🐧</span>
+              <div>
+                <strong>OS: Linux bare metal only</strong>
+                <p>Requires kernel powercap RAPL interface support.</p>
+              </div>
+            </div>
+            <div class="req-item">
+              <span class="req-icon" aria-hidden="true">⚡</span>
+              <div>
+                <strong>Hardware: Intel CPUs</strong>
+                <p>Processors equipped with RAPL-enabled firmware registers.</p>
+              </div>
+            </div>
+            <div class="req-item" style="grid-column: 1 / -1;">
+              <span class="req-icon" aria-hidden="true">🐍</span>
+              <div>
+                <strong>Python: 3.8+</strong>
+                <p>Compatible with modern Python 3 environments.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Command Reference -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="commands-title">
+          <div class="section-intro">
+            <p class="eyebrow">CLI Reference</p>
+            <h3 id="commands-title" style="font-size: 18px;">Command Reference</h3>
+            <p>Direct terminal operations provided by the DoL8 toolkit.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 32%;">Command</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>dol8 run &lt;scripts&gt;</code></td>
+                  <td>Profile one or more targets sequentially with baseline, warmup, and measured runs</td>
+                </tr>
+                <tr>
+                  <td><code>dol8 compare &lt;a&gt; &lt;b&gt;</code></td>
+                  <td>A/B compare two targets with alternating measurements</td>
+                </tr>
+                <tr>
+                  <td><code>dol8 watch [--attach PID]</code></td>
+                  <td>Observe live machine energy; optionally estimate a specific process's share</td>
+                </tr>
+                <tr>
+                  <td><code>dol8 boot-energy</code></td>
+                  <td>Estimate total energy consumed since system boot</td>
+                </tr>
+                <tr>
+                  <td><code>dol8 doctor</code></td>
+                  <td>Validate measurement environment readiness</td>
+                </tr>
+                <tr>
+                  <td><code>dol8 gate save &lt;result.json&gt;</code></td>
+                  <td>Save a profiling result as a reusable energy baseline</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Common Flags -->
+          <div style="margin-top: 32px;">
+            <p class="eyebrow" style="margin-bottom: 8px;">Parameters</p>
+            <h4 style="font-size: 15px; margin-bottom: 14px; font-family: var(--mono);">Common Flags (run / compare)</h4>
+            <div class="spec-card" style="padding: 18px 22px;">
+              <ul style="margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 13px; line-height: 1.6;">
+                <li><code>--runs N</code> — Number of measured iterations (default: 1 for run, 5 for compare)</li>
+                <li><code>--warmup N</code> — Discarded warmup runs before measurement (default: 1)</li>
+                <li><code>--timeout SEC</code> — Per-run timeout in seconds (default: 600)</li>
+                <li><code>--json PATH</code> — Export structured JSON results</li>
+                <li><code>--csv PATH</code> — Export timeline data as CSV</li>
+                <li><code>--price KWH</code> — Estimate monetary cost per run</li>
+                <li><code>--grid-factor G</code> — Estimate CO₂ impact using SCI-aligned grid intensity</li>
+                <li><code>--gate-baseline FILE</code> — Evaluate against a saved energy gate</li>
+                <li><code>--threshold PCT</code> — Gate failure threshold percentage (default: 15%)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Architecture -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="arch-title">
+          <div class="section-intro">
+            <p class="eyebrow">Module Layout</p>
+            <h3 id="arch-title" style="font-size: 18px;">Architecture</h3>
+            <p>Modular Python architecture enforcing explicit responsibility boundaries.</p>
+          </div>
+          <div class="code-wrap">
+            <pre class="code-block">dol8/
+├── __init__.py      # Public API: exports PowerProfiler
+├── cli.py           # Argument parsing, command dispatch, orchestration
+├── runner.py        # TargetRunner (process mgmt) + PowerProfiler (context manager)
+├── rapl.py          # RAPL sysfs reader, counter wrap handling, domain parsing
+├── poller.py        # Background sampling thread for timeline &amp; throttle detection
+├── thermal.py       # Temperature sensor, battery status, psutil integration
+├── stats.py         # Baseline measurement, subtraction, aggregation, confidence
+├── report.py        # Terminal rendering, JSON/CSV export formatters
+├── compare.py       # A/B comparison logic and scan summaries
+├── gate.py          # Energy baseline persistence and threshold evaluation
+├── doctor.py        # Environment diagnostics (RAPL, sensors, timing, permissions)
+└── watch.py         # Live observation mode with process attribution</pre>
+          </div>
+        </section>
+
+        <!-- Core Workflow -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="workflow-title">
+          <div class="section-intro">
+            <p class="eyebrow">Execution Pipeline</p>
+            <h3 id="workflow-title" style="font-size: 18px;">Core Workflow (dol8 run)</h3>
+            <p>Six automated stages guaranteeing isolated, reproducible measurements.</p>
+          </div>
+          <ol class="workflow-steps">
+            <li>
+              <div class="step-num">01</div>
+              <div class="step-content">
+                <strong>Baseline</strong>
+                <p>Measure idle system power for 5 seconds.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">02</div>
+              <div class="step-content">
+                <strong>Warmup</strong>
+                <p>Execute target N times (results discarded).</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">03</div>
+              <div class="step-content">
+                <strong>Cooldown</strong>
+                <p>Wait up to 60s for CPU temp to return within 5°C of baseline.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">04</div>
+              <div class="step-content">
+                <strong>Measured Runs</strong>
+                <p>Execute target inside PowerProfiler context, capturing RAPL deltas, thermal stats, GPU data, and timeline samples.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">05</div>
+              <div class="step-content">
+                <strong>Aggregate</strong>
+                <p>Subtract baseline, compute statistics across runs.</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-num">06</div>
+              <div class="step-content">
+                <strong>Report</strong>
+                <p>Render terminal output and/or export JSON/CSV.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Exit Codes -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="exit-codes-title">
+          <div class="section-intro">
+            <p class="eyebrow">Process Standards</p>
+            <h3 id="exit-codes-title" style="font-size: 18px;">Exit Codes</h3>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 20%;">Code</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>0</code></td>
+                  <td>All targets completed successfully</td>
+                </tr>
+                <tr>
+                  <td><code>1</code></td>
+                  <td>Environment error, invalid arguments, or all targets failed</td>
+                </tr>
+                <tr>
+                  <td><code>2</code></td>
+                  <td>One or more targets failed but at least one succeeded</td>
+                </tr>
+                <tr>
+                  <td><code>130</code></td>
+                  <td>Interrupted by user (Ctrl+C); partial results retained where available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Environment Setup -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="setup-title">
+          <div class="section-intro">
+            <p class="eyebrow">Configuration</p>
+            <h3 id="setup-title" style="font-size: 18px;">Environment Setup</h3>
+            <p>Ensure RAPL counters are readable and test readiness.</p>
+          </div>
+          <div class="code-wrap">
+            <pre class="code-block"><span class="comment"># Check if powercap is available</span>
+ls /sys/class/powercap/intel-rapl*/energy_uj
+
+<span class="comment"># If permission denied, apply udev fix:</span>
+sudo chmod -R a+r /sys/class/powercap/intel-rapl*/
+<span class="comment"># Or persist with udev rule (see `dol8 doctor` output for exact command)</span>
+
+<span class="comment"># Validate your environment:</span>
+dol8 doctor --output-dir ./results</pre>
+          </div>
+        </section>
+
+        <!-- Output Formats -->
+        <section class="section-block" style="margin-top: 56px;" aria-labelledby="formats-title">
+          <div class="section-intro">
+            <p class="eyebrow">Deliverables</p>
+            <h3 id="formats-title" style="font-size: 18px;">Output Formats</h3>
+          </div>
+          <div class="feature-spec-grid">
+            <div class="spec-card">
+              <span class="spec-badge">CLI</span>
+              <h3>Terminal</h3>
+              <p>Human-readable summary with energy, power, thermal, and statistical breakdown.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">DATA</span>
+              <h3>JSON</h3>
+              <p>Full structured results including per-domain energy, timeline samples, throttle events, GPU metrics, and battery state.</p>
+            </div>
+            <div class="spec-card">
+              <span class="spec-badge">TIMELINE</span>
+              <h3>CSV</h3>
+              <p>Time-series timeline data for external visualization.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Honest Attribution Note -->
+        <section class="section-block" style="margin-top: 56px; margin-bottom: 24px;" aria-labelledby="attribution-title">
+          <div class="callout" style="border-left-color: var(--orange-light);">
+            <p class="eyebrow" id="attribution-title" style="margin-bottom: 8px;">Honest Attribution Note</p>
+            <p style="margin: 0; color: var(--text); font-size: 14px; line-height: 1.7;">
+              When using <code>dol8 watch</code>, application energy share is estimated based on CPU-time proportionality. This is an approximation — only <code>dol8 run</code> provides direct RAPL-measured workload isolation through baseline subtraction.
+            </p>
+          </div>
+        </section>
+      </article>
+    </section>
+
 
     <section id="docs" class="view" data-view-panel="docs" aria-labelledby="docs-title" hidden>
       <p class="docs-updated">Docs last updated: 2026-09-27</p>
@@ -325,6 +1173,7 @@ python -m pytest</pre></div>
     <div class="footer-brand">Built with PJY Team</div>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://github.com/search?q=DoL8&amp;type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="#feature" data-view-link="feature">Feature</a>
       <a href="#docs" data-view-link="docs">Docs</a>
       <a href="#install" data-view-link="install">Install</a>
       <a href="https://github.com/search?q=DoL8&amp;type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
