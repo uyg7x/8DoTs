@@ -9,20 +9,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Correct: Goes up to the main docs folder -->
-<link rel="stylesheet" href="../../styles.css">
-<script src="../../script.js" defer></script>
+  <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
   <div class="site-shell">
   <header class="site-header">
     <div class="nav-row">
       <div class="brand-group">
+        <a class="brand" href="../../index.html#home" aria-label="DoL8 home">DoL<span class="brand-eight">8</span></a>
       </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="../../index.html#home">Home</a>
+        <a href="../../index.html#docs">Docs</a>
+        <a href="../../index.html#install">Install</a>
+        <a href="https://github.com/uyg7x/8DoTs" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+    </div>
+  </header>
+
   <main class="frame feature-document">
     <article class="view" data-view-panel="home" aria-labelledby="feature-title">
       <header class="feature-hero">
-           <div class="feature-sections">
+        <p class="eyebrow">05 / EXPORT</p>
+        <h1 id="feature-title">JSON and CSV</h1>
+        <p class="feature-summary">Save structured metrics and sampled timelines for downstream analysis and reporting.</p>
+        <a class="feature-back" href="../../index.html#home">&#8592; Back to overview</a>
+      </header>
+
+      <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>Exports turn a terminal result into data that can be archived, compared, plotted, or checked by another program. DoL8 writes a structured JSON result and a CSV timeline through the <code>--json</code> and <code>--csv</code> options.</p>
           <p>The current JSON contract includes tool/version/timestamp/CPU/OS metadata, duration and energy metrics, per-domain values, thermal fields, and repeated-run statistics. CSV stores time-series sample rows.</p>
@@ -86,8 +100,8 @@ jq '.metrics.energy_joules, .statistics.confidence' result.json</pre></div>
         </section>
         <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
           <div class="related-links">
-            <a href="/features/sequential-execution"><span>04 / EXECUTION</span>Sequential target runs</a>
-            <a href="/features/ci-energy-gates"><span>06 / AUTOMATION</span>CI energy gates</a>
+            <a href="../sequential-execution/index.html"><span>04 / EXECUTION</span>Sequential target runs</a>
+            <a href="../ci-energy-gates/index.html"><span>06 / AUTOMATION</span>CI energy gates</a>
           </div>
         </section>
       </div>
@@ -97,13 +111,13 @@ jq '.metrics.energy_joules, .statistics.confidence' result.json</pre></div>
     <div class="footer-brand">Built with PJY Team</div>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="/#docs">Docs</a>
-      <a href="/#install">Install</a>
+      <a href="../../index.html#docs">Docs</a>
+      <a href="../../index.html#install">Install</a>
       <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
     </nav>
   </footer>
   <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
   </div>
-  <script src="/script.js" defer></script>
+  <script src="../../script.js" defer></script>
 </body>
 </html>

@@ -9,19 +9,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Correct: Goes up to the main docs folder -->
-<link rel="stylesheet" href="../../styles.css">
-<script src="../../script.js" defer></script>
+  <link rel="stylesheet" href="../../styles.css">
 </head>
 <body>
   <div class="site-shell">
   <header class="site-header">
     <div class="nav-row">
       <div class="brand-group">
+        <a class="brand" href="../../index.html#home" aria-label="DoL8 home">DoL<span class="brand-eight">8</span></a>
       </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="../../index.html#home">Home</a>
+        <a href="../../index.html#docs">Docs</a>
+        <a href="../../index.html#install">Install</a>
+        <a href="https://github.com/uyg7x/8DoTs" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&#8599;</span></a>
+      </nav>
+    </div>
+  </header>
+
   <main class="frame feature-document">
     <article class="view" data-view-panel="home" aria-labelledby="feature-title">
-          <div class="feature-sections">
+      <header class="feature-hero">
+        <p class="eyebrow">04 / EXECUTION</p>
+        <h1 id="feature-title">Sequential target runs</h1>
+        <p class="feature-summary">Profile scripts and commands one at a time, with timeout handling and process-tree cleanup.</p>
+        <a class="feature-back" href="../../index.html#home">&#8592; Back to overview</a>
+      </header>
+
+      <div class="feature-sections">
         <section class="feature-section" aria-labelledby="what-title"><h2 id="what-title">What it is</h2>
           <p>A target runner is the boundary between a measurement tool and the program being measured. It starts one script or command, captures its output and exit status, and measures the interval around that target.</p>
           <p>DoL8 runs requested targets sequentially. A directory is invoked through pytest, a Python file uses the active Python interpreter, and other targets are launched as commands. The default timeout is 600 seconds.</p>
@@ -67,8 +82,8 @@ for target in targets:
         </section>
         <section class="feature-section" aria-labelledby="related-title"><h2 id="related-title">Related</h2>
           <div class="related-links">
-            <a href="/features/statistical-variation"><span>03 / VARIATION</span>Statistical confidence</a>
-            <a href="/features/export-formats"><span>05 / EXPORT</span>JSON and CSV</a>
+            <a href="../statistical-variation/index.html"><span>03 / VARIATION</span>Statistical confidence</a>
+            <a href="../export-formats/index.html"><span>05 / EXPORT</span>JSON and CSV</a>
           </div>
         </section>
       </div>
@@ -78,13 +93,13 @@ for target in targets:
     <div class="footer-brand">Built with PJY Team</div>
     <nav class="footer-links" aria-label="Footer navigation">
       <a href="https://github.com/search?q=DoL8&type=repositories" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="/#docs">Docs</a>
-      <a href="/#install">Install</a>
+      <a href="../../index.html#docs">Docs</a>
+      <a href="../../index.html#install">Install</a>
       <a href="https://github.com/search?q=DoL8&type=issues" target="_blank" rel="noopener noreferrer">Report an Issue</a>
     </nav>
   </footer>
   <div id="copy-status" class="small-note frame" role="status" aria-live="polite"></div>
   </div>
-  <script src="/script.js" defer></script>
+  <script src="../../script.js" defer></script>
 </body>
 </html>
