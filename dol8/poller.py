@@ -26,7 +26,7 @@ class PollingThread(threading.Thread):
             raise ValueError("interval_s must be positive")
         self.reader = reader
         self.thermal = thermal
-        self.interval_s = interval_s
+        self.interval_s = max(interval_s, 0.1)
         self.stop_flag = threading.Event()
         self.samples: List[Dict[str, Any]] = []
         self.peak_watts = 0.0
