@@ -3,11 +3,11 @@
                                       **समय मापने से रूप दिखता है, ऊर्जा मापने से सत्य ज्ञात होता है।**
                                                      **测时见形，测能知真**
                                                      
-   **To measure time is to see the form. To measure energy is to know the truth**
+                                  **To measure time is to see the form. To measure energy is to know the truth**
 
-**
 
-```text
+
+                                                                     ```text
 ██████╗  ██████╗ ██╗
 ██╔══██╗██╔══██╗██║
 ██║  ██║██║  ██║██║
@@ -20,7 +20,7 @@
          ╚██████╔╝
          ██╔═══██╗
          ╚██████╔╝
-```
+                                                                        ```
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
