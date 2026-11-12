@@ -1,7 +1,5 @@
 """Target process execution and context-managed energy profiling."""
-
 from __future__ import annotations
-
 import os
 import signal
 import subprocess
@@ -12,19 +10,16 @@ import ctypes
 import logging
 from dataclasses import dataclass, field
 from typing import List, Optional, Sequence, TextIO
-
 from .poller import PollingThread
 from .rapl import RAPLReader, RaplUnavailable, total_energy_joules
 from .report import render_terminal
 from .thermal import ThermalMonitor, psutil
-
 _SUBREAPER_WARNING_LOGGED = False
 
-
 @dataclass
+
 class RunResult:
     """Captured target process result."""
-
     returncode: int
     stdout: str
     stderr: str
@@ -32,12 +27,20 @@ class RunResult:
     killed_by_timeout: bool = False
     survivors: List[int] = field(default_factory=list)
 
-
 class TargetRunner:
     """Run a target sequentially and stream its standard output."""
 
-    def run(self, cmd: Sequence[str], timeout_s: float = 600.0) -> RunResult:
-        """Execute one command, killing its process group on timeout."""
+    def run(
+        self,
+        cmd: Sequence[str],
+        timeout_s: float = 600.0,
+        live_output: bool = True,
+    ) -> RunResult:
+        """Execute one command, optionally echoing its output live.
+
+        Output is always captured in full. Set ``live_output=False`` for quiet
+        automated runs; this does not discard stdout or stderr from RunResult.
+        """
         if not cmd:
             raise ValueError("cmd must contain an executable")
         _enable_child_subreaper()
@@ -55,10 +58,14 @@ class TargetRunner:
         stdout_lines: List[str] = []
         stderr_lines: List[str] = []
         stdout_thread = threading.Thread(
-            target=self._capture_stdout, args=(process.stdout, stdout_lines), daemon=True
+            target=self._capture_stdout,
+            args=(process.stdout, stdout_lines, live_output),
+            daemon=True,
         )
         stderr_thread = threading.Thread(
-            target=self._capture_stderr, args=(process.stderr, stderr_lines), daemon=True
+            target=self._capture_stderr,
+            args=(process.stderr, stderr_lines, live_output),
+            daemon=True,
         )
         stdout_thread.start()
         stderr_thread.start()
@@ -90,25 +97,62 @@ class TargetRunner:
             killed_by_timeout=killed,
             survivors=survivors,
         )
-
     @staticmethod
-    def _capture_stdout(stream: Optional[TextIO], output: List[str]) -> None:
-        """Print prefixed stdout lines live while retaining raw target output."""
+    def _capture_stdout(
+        stream: Optional[TextIO],
+        output: List[str],
+        live_output: bool = True,
+    ) -> None:
+        """Capture stdout fully and batch terminal writes to reduce blocking."""
         if stream is None:
             return
+
+        batch: List[str] = []
+        batch_size = 64
         for line in stream:
+            # Always retain the original captured text, even in quiet mode.
             output.append(line)
-            print("[target-out] {}".format(line.rstrip("\r\n")), flush=True)
+            if live_output:
+                batch.append("[target-out] {}\n".format(line.rstrip("\r\n")))
+                if len(batch) >= batch_size:
+                    sys.stdout.write("".join(batch))
+                    sys.stdout.flush()
+                    batch.clear()
+
+        # Emit the final partial batch so no live output is lost.
+        if batch:
+            sys.stdout.write("".join(batch))
+            sys.stdout.flush()
 
     @staticmethod
-    def _capture_stderr(stream: Optional[TextIO], output: List[str]) -> None:
-        """Print prefixed stderr lines live and retain raw output concurrently."""
-        if stream is not None:
-            for line in stream:
-                output.append(line)
-                print("[target-err] {}".format(line.rstrip("\r\n")), file=sys.stderr, flush=True)
+    def _capture_stderr(
+        stream: Optional[TextIO],
+        output: List[str],
+        live_output: bool = True,
+    ) -> None:
+        """Capture stderr fully and batch terminal writes to reduce blocking."""
+        if stream is None:
+            return
+
+        batch: List[str] = []
+        batch_size = 64
+        for line in stream:
+            # Always retain the original captured text, even in quiet mode.
+            output.append(line)
+            if live_output:
+                batch.append("[target-err] {}\n".format(line.rstrip("\r\n")))
+                if len(batch) >= batch_size:
+                    sys.stderr.write("".join(batch))
+                    sys.stderr.flush()
+                    batch.clear()
+
+        # Emit the final partial batch so no live output is lost.
+        if batch:
+            sys.stderr.write("".join(batch))
+            sys.stderr.flush()
 
     @staticmethod
+
     def _environment_for(cmd: Sequence[str]) -> Optional[dict[str, str]]:
         """Merge an unbuffered-output setting for Python script targets only."""
         if len(cmd) > 1 and cmd[1].lower().endswith(".py"):
@@ -116,8 +160,8 @@ class TargetRunner:
             environment["PYTHONUNBUFFERED"] = "1"
             return environment
         return None
-
     @staticmethod
+
     def _snapshot_runner_children() -> set[int]:
         """Record pre-existing runner children so cleanup cannot kill unrelated work."""
         if psutil is None:
@@ -162,8 +206,8 @@ class TargetRunner:
         for pid in snapshot:
             self._kill_pid(pid)
         return self._find_survivors(snapshot)
-
     @staticmethod
+
     def _snapshot_descendants(pid: int) -> List[int]:
         """Snapshot all visible descendants before sending any termination signal."""
         if psutil is None:
@@ -172,8 +216,8 @@ class TargetRunner:
             return [child.pid for child in psutil.Process(pid).children(recursive=True)]
         except (psutil.NoSuchProcess, psutil.AccessDenied, OSError):
             return []
-
     @staticmethod
+
     def _snapshot_adopted_children(pid: int, baseline_children: set[int]) -> List[int]:
         """Find new runner children, including descendants adopted by the subreaper."""
         if psutil is None:
@@ -186,8 +230,8 @@ class TargetRunner:
             ]
         except (psutil.NoSuchProcess, psutil.AccessDenied, OSError):
             return []
-
     @staticmethod
+
     def _signal_group(pgid: int, sig: int) -> None:
         """Send a signal to a target's isolated POSIX process group."""
         killpg = getattr(os, "killpg", None)
@@ -197,8 +241,8 @@ class TargetRunner:
             killpg(pgid, sig)
         except (ProcessLookupError, PermissionError):
             pass
-
     @staticmethod
+
     def _group_exists(pgid: int) -> bool:
         """Return whether a POSIX process group still has members."""
         killpg = getattr(os, "killpg", None)
@@ -211,8 +255,8 @@ class TargetRunner:
             return False
         except PermissionError:
             return True
-
     @staticmethod
+
     def _kill_pid(pid: int) -> None:
         """Hard-kill one snapshotted descendant on the current platform."""
         try:
@@ -226,8 +270,8 @@ class TargetRunner:
             if isinstance(error, OSError) or (psutil is not None and isinstance(error, psutil.Error)):
                 return
             raise
-
     @staticmethod
+
     def _find_survivors(pids: set[int]) -> List[int]:
         """Return snapshotted PIDs that are still running after cleanup."""
         survivors = []
@@ -246,8 +290,8 @@ class TargetRunner:
             except (psutil.NoSuchProcess, psutil.AccessDenied, OSError):
                 continue
         return survivors
-
     @staticmethod
+
     def _reap_adopted_children(pids: set[int]) -> None:
         """Reap terminated Linux descendants adopted by the subreaper."""
         if sys.platform != "linux":
@@ -267,11 +311,9 @@ class TargetRunner:
             if pending:
                 time.sleep(0.01)
 
-
 def _uses_posix_process_groups() -> bool:
     """Return whether isolated POSIX process groups are available."""
     return os.name == "posix"
-
 
 def _enable_child_subreaper() -> bool:
     """Enable Linux child-subreaper behavior when libc supports prctl."""
@@ -291,7 +333,6 @@ def _enable_child_subreaper() -> bool:
             _SUBREAPER_WARNING_LOGGED = True
         return False
 
-
 def map_exit(run_result: Optional[RunResult], interrupted: bool = False) -> int:
     """Map a run outcome to DoL8's documented CLI exit status."""
     if interrupted or (run_result is not None and run_result.returncode == 130):
@@ -299,7 +340,6 @@ def map_exit(run_result: Optional[RunResult], interrupted: bool = False) -> int:
     if run_result is None:
         return 1
     return 0 if run_result.returncode == 0 and not run_result.killed_by_timeout else 2
-
 
 class PowerProfiler:
     """Measure energy and thermal data around a Python context block."""
