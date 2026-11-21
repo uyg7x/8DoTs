@@ -1,0 +1,11 @@
+# 1. Tell GitHub: Rust and JavaScript are primary languages, include them in stats
+*.rs linguist-language=Rust
+*.js linguist-language=JavaScript
+
+# 2. Exclude all documentation files from language stats 
+# (READMEs and docs shouldn't count as code)
+*.md linguist-documentation
+docs/** linguist-documentation
+
+# 3. Exclude third-party or minified files if you have any
+# *.min.js linguist-vendored
