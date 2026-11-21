@@ -1,0 +1,22 @@
+[package]
+name = "dol8_core"
+version = "0.2.0"
+edition = "2021"
+description = "Hybrid Python/Rust energy profiler core for dol8"
+license = "MIT"
+
+[lib]
+name = "dol8_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.23", features = ["extension-module"] }
+
+# No other dependencies. The reader, comparison engine, and timeout logic
+# all use std only, so there is nothing new to download or audit.
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
