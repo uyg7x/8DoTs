@@ -1,0 +1,74 @@
+name: dol8 energy gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  dol8-compare:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Run on both a hosted runner (advisory) and a self-hosted
+        # bare-metal runner (hard gate). Remove the bare-metal entry if
+        # you don't have one yet.
+        runner: [ubuntu-latest, self-hosted-bare-metal]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # need PR base and head for comparison
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install perf (Tier D support on Linux runners)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y linux-tools-common linux-tools-generic
+          # Allow unprivileged perf counter access for the runner user.
+          echo 2 | sudo tee /proc/sys/kernel/perf_event_paranoid || true
+
+      - name: Build dol8 engine
+        run: |
+          python -m pip install --upgrade pip maturin psutil
+          maturin develop --release
+
+      - name: Run unit tests
+        run: |
+          python tests/test_stats.py
+          python tests/test_rapl_math.py
+
+      - name: Restore baseline from PR base branch
+        run: |
+          git checkout origin/${{ github.base_ref }} -- tests/baseline/ 2>/dev/null || true
+
+      - name: Run dol8 comparison
+        # The exit code is what gates the PR:
+        #   0 = pass or advisory
+        #   1 = regression exceeded threshold (hard gate)
+        #   2 = operational error
+        #   3 = cross-tier baseline mismatch
+        run: |
+          python CompareFolder/compareJ.py \
+            tests/baseline/old_project \
+            tests/baseline/new_project \
+            --entry main.py \
+            --runs 10 \
+            --threshold 5.0 \
+            --min-confidence MEDIUM \
+            --timeout 60 \
+            --json dol8_result_${{ matrix.runner }}.json
+
+      - name: Upload result JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dol8-result-${{ matrix.runner }}
+          path: dol8_result_${{ matrix.runner }}.json

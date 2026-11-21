@@ -6,3 +6,41 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+# --- Rust specific ---
+rust_core/target/
+**/*.rs.bk
+
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+
+# --- IDE and OS specific ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Custom / Local folders ---
+.kilo/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+env/
+
+# Rust
+target/
+Cargo.lock
+
+# DoL8 Outputs
+*.json
+*.csv
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,4 @@
+# /etc/udev/rules.d/99-dol8.rules
+# Grant the 'powercap' group read access to all RAPL energy counters.
+SUBSYSTEM=="powercap", ACTION=="add", RUN+="/bin/chgrp powercap /sys/class/powercap/intel-rapl*/energy_uj"
+SUBSYSTEM=="powercap", ACTION=="add", RUN+="/bin/chmod 0640 /sys/class/powercap/intel-rapl*/energy_uj"
