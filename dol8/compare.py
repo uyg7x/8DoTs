@@ -1,3 +1,15 @@
+import dol8_core
+
+def compare_folders_rust(old_dir: str, new_dir: str, entry_file: str = "main.py", runs: int = 3):
+    """
+    Calls the blazing fast Rust engine to compare two folders.
+    """
+    try:
+        dol8_core.compare_folders(old_dir, new_dir, entry_file, runs)
+    except Exception as e:
+        print(f"Error during Rust comparison: {e}")
+        raise
+
 """Sequential file scans and statistically honest A/B comparisons."""
 
 from __future__ import annotations
